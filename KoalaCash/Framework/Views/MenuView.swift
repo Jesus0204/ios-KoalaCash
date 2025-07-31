@@ -9,10 +9,81 @@ import SwiftUI
 
 struct MenuView: View {
     @Binding var path: [SessionPaths]
+    
+    @State private var username: String = ""
+    @State private var password: String = ""
+    @State private var isPasswordVisible: Bool = false
+    
     var body: some View {
         ZStack {
             BackgroundView()
-            Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+            VStack {
+                HStack {
+                    Spacer()
+                    Image("KoalaCashLogo")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(height: 150)
+                        .accessibilityHidden(true)
+                    Spacer()
+                }
+                .padding(.bottom, 10)
+
+                TitleSubtitleView(
+                    title: "Bienvenido a KoalaCash",
+                    subtitle: "Administra tu dinero de forma sencilla y en dos monedas."
+                            )
+                .padding(.bottom, 32)
+                
+                VStack(spacing: 16) {
+                    VStack(alignment: .leading) {
+                        Text("Usuario")
+                            .font(.title3)
+                            .bold()
+                        TextField("Ingresa tu usuario", text: $username)
+                            .textInputAutocapitalization(.never)
+                            .autocorrectionDisabled(true)
+                            .padding()
+                            .background(RoundedRectangle(cornerRadius: 10)
+                                .stroke(Color.gray.opacity(0.4))
+                            )
+                    }
+                    .padding(.horizontal, 24)
+                    
+                    VStack(alignment: .leading) {
+                        PasswordField(
+                            password: $password,
+                            isPasswordVisible: $isPasswordVisible,
+                            text: "Contraseña"
+                        )
+                    }
+                    .padding(.horizontal, 24)
+                }
+
+                Spacer()
+
+                CustomButton(
+                    text: "Iniciar sesión",
+                    action: {},
+                    backgroundColor: .black,
+                    foregroundColor: .white
+                )
+
+                Button(
+                    action: {
+                        path.append(.register)
+                    }
+                ){
+                    Text("¿No tienes cuenta? Crea una")
+                        .underline()
+                        .font(.system(.body, design: .rounded))
+                        .foregroundColor(.black)
+                }
+                .padding(.bottom, 16)
+            }
+            .onTapGesture {
+                UIApplication.shared.hideKeyboard()
+            }
         }
     }
 }
@@ -30,4 +101,3 @@ struct MenuView_Previews: PreviewProvider {
         }
     }
 }
-
