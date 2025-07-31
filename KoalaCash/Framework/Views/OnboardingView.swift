@@ -35,7 +35,7 @@ struct OnboardingView: View {
                     .frame(height: min(UIScreen.main.bounds.height * 0.55, 600))
                     .padding(.horizontal, 24)
                     
-                    TitleSubtitleView(title: "Tu dinero, sin fronteras", subtitle: "Recibe cada mes y administra en dos monedas. Controla gastos, conversión y lo que te queda.")
+                    TitleSubtitleView(title: "Tu dinero, sin fronteras", subtitle: "Registra tus gastos, ve tu quincena y convierte entre dos monedas. Antes de pagar verás la tasa del día; al pagar, la congelamos. ¡No te pierdas el dinero que necesitas!")
                     
                     Spacer()
 
@@ -56,6 +56,8 @@ struct OnboardingView: View {
                     LoginView(path: $path)
                 case .register:
                     InitialDataView(path: $path)
+                case .forgottenPassword:
+                    PasswordRecoveryView()
                 }
             }
         }

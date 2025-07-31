@@ -17,8 +17,8 @@ struct InitialDataView: View {
             BackgroundView()
             
             ScrollView {
-                VStack(alignment: .leading) {
-                    TitleSubtitleView(title: "¡Comenzemos!", subtitle: "Te pediremos que proporciones los siguientes datos para poder comenzar a trabajar con KoalaCash")
+                VStack() {
+                    TitleSubtitleView(title: "¡Comenzemos!", subtitle: "Configura tu quincena y moneda base. Podrás cambiarlos en Ajustes.")
                     
                     HStack {
                         Spacer()
@@ -50,7 +50,7 @@ struct InitialDataView: View {
             VStack {
                 Spacer()
                 CustomButton(
-                    text: "Continuar",
+                    text: "Guardar y seguir",
                     action: { },
                     backgroundColor: .black,
                     foregroundColor: .white

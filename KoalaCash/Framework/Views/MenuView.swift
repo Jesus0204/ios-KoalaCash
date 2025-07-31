@@ -10,7 +10,7 @@ import SwiftUI
 struct MenuView: View {
     @Binding var path: [SessionPaths]
     
-    @State private var username: String = ""
+    @State private var email: String = ""
     @State private var password: String = ""
     @State private var isPasswordVisible: Bool = false
     
@@ -37,18 +37,10 @@ struct MenuView: View {
                 
                 VStack(spacing: 16) {
                     VStack(alignment: .leading) {
-                        Text("Usuario")
-                            .font(.title3)
-                            .bold()
-                        TextField("Ingresa tu usuario", text: $username)
-                            .textInputAutocapitalization(.never)
-                            .autocorrectionDisabled(true)
-                            .padding()
-                            .background(RoundedRectangle(cornerRadius: 10)
-                                .stroke(Color.gray.opacity(0.4))
-                            )
+                        EmailField(email: $email,
+                                   text: "Correo electrónico",
+                                   placeholder: "Escribe tu correo...")
                     }
-                    .padding(.horizontal, 24)
                     
                     VStack(alignment: .leading) {
                         PasswordField(
@@ -58,6 +50,19 @@ struct MenuView: View {
                         )
                     }
                     .padding(.horizontal, 24)
+                    
+                    Button(
+                        action: {
+                            path.append(.forgottenPassword)
+                        }
+                    ){
+                        Text("¿Olvidaste tu contraseña?")
+                            .underline()
+                            .font(.system(.body, design: .rounded))
+                            .foregroundColor(.black)
+                    }
+                    .padding(.bottom, 16)
+                    .buttonStyle(PlainButtonStyle())
                 }
 
                 Spacer()
@@ -74,12 +79,13 @@ struct MenuView: View {
                         path.append(.register)
                     }
                 ){
-                    Text("¿No tienes cuenta? Crea una")
+                    Text("¿No tienes cuenta? Crear cuenta")
                         .underline()
                         .font(.system(.body, design: .rounded))
                         .foregroundColor(.black)
                 }
                 .padding(.bottom, 16)
+                .buttonStyle(PlainButtonStyle())
             }
             .onTapGesture {
                 UIApplication.shared.hideKeyboard()
