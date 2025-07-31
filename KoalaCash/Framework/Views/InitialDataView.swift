@@ -53,6 +53,10 @@ struct InitialDataView: View {
                     text: "Guardar y seguir",
                     action: {
                         onboardingViewModel.validarDatosApp()
+                        
+                        if !onboardingViewModel.showAlert {
+                            path.append(.accountDetails)
+                        }
                     },
                     backgroundColor: .black,
                     foregroundColor: .white
@@ -62,6 +66,12 @@ struct InitialDataView: View {
         }
         .onTapGesture {
             UIApplication.shared.hideKeyboard()
+        }
+        .alert(isPresented: $onboardingViewModel.showAlert) {
+            Alert(
+                title: Text("Oops!"),
+                message: Text(onboardingViewModel.messageAlert)
+            )
         }
     }
 }

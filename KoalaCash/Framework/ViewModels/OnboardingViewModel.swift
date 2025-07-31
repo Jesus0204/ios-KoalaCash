@@ -57,11 +57,11 @@ class OnboardingViewModel: ObservableObject {
     
     @MainActor
     func validarDatosApp() {
-        if self.budgetValue == 0 {
+        guard let presupuesto = budgetValue, presupuesto > 0 else {
             self.messageAlert = "Por favor ingrese un monto de presupuesto válido."
             self.showAlert = true
             return
-        }
+          }
     }
     
     @MainActor

@@ -54,6 +54,8 @@ struct OnboardingView: View {
                     MenuView(path: $path)
                 case .register:
                     InitialDataView(path: $path)
+                case .accountDetails:
+                    AccountDataView()
                 case .forgottenPassword:
                     PasswordRecoveryView()
                 }
