@@ -8,40 +8,55 @@
 import SwiftUI
 
 struct OnboardingView: View {
+    @State private var path: [SessionPaths] = []
     var body: some View {
-        ZStack {
-            BackgroundView()
+        NavigationStack(path: $path) {
+            ZStack {
+                BackgroundView()
 
-            VStack(spacing: 0) {
-                Spacer(minLength: 24)
-                
-                GeometryReader { proxy in
-                    let heroH = min(proxy.size.height * 0.80, 560)
+                VStack(spacing: 0) {
+                    Spacer(minLength: 24)
                     
-                    VStack {
-                        Spacer(minLength: 0)
-                        Image("KoalaCashOnboarding")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(height: heroH)
-                            .frame(maxWidth: .infinity)
-                            .shadow(radius: 4, y: 2)
-                        Spacer(minLength: 0)
+                    GeometryReader { proxy in
+                        let heroH = min(proxy.size.height * 0.80, 560)
+                        
+                        VStack {
+                            Spacer(minLength: 0)
+                            Image("KoalaCashOnboarding")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(height: heroH)
+                                .frame(maxWidth: .infinity)
+                                .shadow(radius: 4, y: 2)
+                            Spacer(minLength: 0)
+                        }
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
                     }
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-                }
-                .frame(height: min(UIScreen.main.bounds.height * 0.55, 600))
-                .padding(.horizontal, 24)
-                
-                TitleSubtitleView(title: "Tu dinero, sin fronteras", subtitle: "Recibe cada mes y administra en dos monedas. Controla gastos, conversión y lo que te queda.")
-                
-                Spacer()
+                    .frame(height: min(UIScreen.main.bounds.height * 0.55, 600))
+                    .padding(.horizontal, 24)
+                    
+                    TitleSubtitleView(title: "Tu dinero, sin fronteras", subtitle: "Recibe cada mes y administra en dos monedas. Controla gastos, conversión y lo que te queda.")
+                    
+                    Spacer()
 
-                CustomButton(
-                    text: "Empezar", action: {},
-                    backgroundColor: .black,
-                    foregroundColor: .white
-                )
+                    CustomButton(
+                        text: "Empezar", action: {
+                            path.append(.menu)
+                        },
+                        backgroundColor: .black,
+                        foregroundColor: .white
+                    )
+                }
+            }
+            .navigationDestination(for: SessionPaths.self) { value in
+                switch value {
+                case .menu:
+                    MenuView(path: $path)
+                case .login:
+                    LoginView(path: $path)
+                case .register:
+                    InitialDataView(path: $path)
+                }
             }
         }
     }

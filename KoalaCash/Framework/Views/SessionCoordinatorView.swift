@@ -8,8 +8,25 @@
 import SwiftUI
 
 struct SessionCoordinatorView: View {
+    @State private var isAppLoading = false
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        ZStack {
+            if isAppLoading {
+                LoadingView()
+            } else {
+                OnboardingView()
+            }
+        }
+        .onAppear {
+            triggerAppLoading()
+        }
+    }
+    
+    private func triggerAppLoading() {
+        isAppLoading = true
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+            isAppLoading = false
+        }
     }
 }
 

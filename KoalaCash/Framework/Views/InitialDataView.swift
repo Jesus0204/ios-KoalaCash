@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct InitialDataView: View {
+    @Binding var path: [SessionPaths]
+    
     @StateObject private var onboardingViewModel = OnboardingViewModel()
     
     var body: some View {
@@ -62,6 +64,16 @@ struct InitialDataView: View {
     }
 }
 
-#Preview {
-    InitialDataView()
+struct InitialDataView_Previews: PreviewProvider {
+    static var previews: some View {
+        PreviewWrapper()
+    }
+
+    struct PreviewWrapper: View {
+        @State var path: [SessionPaths] = []
+
+        var body: some View {
+            InitialDataView(path: $path)
+        }
+    }
 }
