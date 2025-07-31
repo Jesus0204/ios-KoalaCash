@@ -1,0 +1,568 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXContainerItemProxy section */
+		25CD2A7B2E38BBCB00D0EDFA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 25CD2A632E38BBC900D0EDFA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 25CD2A6A2E38BBC900D0EDFA;
+			remoteInfo = KoalaCash;
+		};
+		25CD2A852E38BBCB00D0EDFA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 25CD2A632E38BBC900D0EDFA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 25CD2A6A2E38BBC900D0EDFA;
+			remoteInfo = KoalaCash;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		25CD2A6B2E38BBC900D0EDFA /* KoalaCash.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KoalaCash.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		25CD2A7A2E38BBCB00D0EDFA /* KoalaCashTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KoalaCashTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		25CD2A842E38BBCB00D0EDFA /* KoalaCashUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KoalaCashUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		25CD2A6D2E38BBC900D0EDFA /* KoalaCash */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = KoalaCash;
+			sourceTree = "<group>";
+		};
+		25CD2A7D2E38BBCB00D0EDFA /* KoalaCashTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = KoalaCashTests;
+			sourceTree = "<group>";
+		};
+		25CD2A872E38BBCB00D0EDFA /* KoalaCashUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = KoalaCashUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		25CD2A682E38BBC900D0EDFA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		25CD2A772E38BBCB00D0EDFA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		25CD2A812E38BBCB00D0EDFA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		25CD2A622E38BBC900D0EDFA = {
+			isa = PBXGroup;
+			children = (
+				25CD2A6D2E38BBC900D0EDFA /* KoalaCash */,
+				25CD2A7D2E38BBCB00D0EDFA /* KoalaCashTests */,
+				25CD2A872E38BBCB00D0EDFA /* KoalaCashUITests */,
+				25CD2A6C2E38BBC900D0EDFA /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		25CD2A6C2E38BBC900D0EDFA /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				25CD2A6B2E38BBC900D0EDFA /* KoalaCash.app */,
+				25CD2A7A2E38BBCB00D0EDFA /* KoalaCashTests.xctest */,
+				25CD2A842E38BBCB00D0EDFA /* KoalaCashUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		25CD2A6A2E38BBC900D0EDFA /* KoalaCash */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 25CD2A8E2E38BBCB00D0EDFA /* Build configuration list for PBXNativeTarget "KoalaCash" */;
+			buildPhases = (
+				25CD2A672E38BBC900D0EDFA /* Sources */,
+				25CD2A682E38BBC900D0EDFA /* Frameworks */,
+				25CD2A692E38BBC900D0EDFA /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				25CD2A6D2E38BBC900D0EDFA /* KoalaCash */,
+			);
+			name = KoalaCash;
+			packageProductDependencies = (
+			);
+			productName = KoalaCash;
+			productReference = 25CD2A6B2E38BBC900D0EDFA /* KoalaCash.app */;
+			productType = "com.apple.product-type.application";
+		};
+		25CD2A792E38BBCB00D0EDFA /* KoalaCashTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 25CD2A912E38BBCB00D0EDFA /* Build configuration list for PBXNativeTarget "KoalaCashTests" */;
+			buildPhases = (
+				25CD2A762E38BBCB00D0EDFA /* Sources */,
+				25CD2A772E38BBCB00D0EDFA /* Frameworks */,
+				25CD2A782E38BBCB00D0EDFA /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				25CD2A7C2E38BBCB00D0EDFA /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				25CD2A7D2E38BBCB00D0EDFA /* KoalaCashTests */,
+			);
+			name = KoalaCashTests;
+			packageProductDependencies = (
+			);
+			productName = KoalaCashTests;
+			productReference = 25CD2A7A2E38BBCB00D0EDFA /* KoalaCashTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		25CD2A832E38BBCB00D0EDFA /* KoalaCashUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 25CD2A942E38BBCB00D0EDFA /* Build configuration list for PBXNativeTarget "KoalaCashUITests" */;
+			buildPhases = (
+				25CD2A802E38BBCB00D0EDFA /* Sources */,
+				25CD2A812E38BBCB00D0EDFA /* Frameworks */,
+				25CD2A822E38BBCB00D0EDFA /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				25CD2A862E38BBCB00D0EDFA /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				25CD2A872E38BBCB00D0EDFA /* KoalaCashUITests */,
+			);
+			name = KoalaCashUITests;
+			packageProductDependencies = (
+			);
+			productName = KoalaCashUITests;
+			productReference = 25CD2A842E38BBCB00D0EDFA /* KoalaCashUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		25CD2A632E38BBC900D0EDFA /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1640;
+				LastUpgradeCheck = 1640;
+				TargetAttributes = {
+					25CD2A6A2E38BBC900D0EDFA = {
+						CreatedOnToolsVersion = 16.4;
+					};
+					25CD2A792E38BBCB00D0EDFA = {
+						CreatedOnToolsVersion = 16.4;
+						TestTargetID = 25CD2A6A2E38BBC900D0EDFA;
+					};
+					25CD2A832E38BBCB00D0EDFA = {
+						CreatedOnToolsVersion = 16.4;
+						TestTargetID = 25CD2A6A2E38BBC900D0EDFA;
+					};
+				};
+			};
+			buildConfigurationList = 25CD2A662E38BBC900D0EDFA /* Build configuration list for PBXProject "KoalaCash" */;
+			developmentRegion = "es-419";
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+				"es-419",
+			);
+			mainGroup = 25CD2A622E38BBC900D0EDFA;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 25CD2A6C2E38BBC900D0EDFA /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				25CD2A6A2E38BBC900D0EDFA /* KoalaCash */,
+				25CD2A792E38BBCB00D0EDFA /* KoalaCashTests */,
+				25CD2A832E38BBCB00D0EDFA /* KoalaCashUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		25CD2A692E38BBC900D0EDFA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		25CD2A782E38BBCB00D0EDFA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		25CD2A822E38BBCB00D0EDFA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		25CD2A672E38BBC900D0EDFA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		25CD2A762E38BBCB00D0EDFA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		25CD2A802E38BBCB00D0EDFA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		25CD2A7C2E38BBCB00D0EDFA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 25CD2A6A2E38BBC900D0EDFA /* KoalaCash */;
+			targetProxy = 25CD2A7B2E38BBCB00D0EDFA /* PBXContainerItemProxy */;
+		};
+		25CD2A862E38BBCB00D0EDFA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 25CD2A6A2E38BBC900D0EDFA /* KoalaCash */;
+			targetProxy = 25CD2A852E38BBCB00D0EDFA /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		25CD2A8C2E38BBCB00D0EDFA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 43GHW8N2DC;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		25CD2A8D2E38BBCB00D0EDFA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 43GHW8N2DC;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		25CD2A8F2E38BBCB00D0EDFA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 43GHW8N2DC;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.finance";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UIRequiresFullScreen = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.yeesus0204.KoalaCash;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		25CD2A902E38BBCB00D0EDFA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 43GHW8N2DC;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.finance";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UIRequiresFullScreen = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.yeesus0204.KoalaCash;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		25CD2A922E38BBCB00D0EDFA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 43GHW8N2DC;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.yeesus0204.KoalaCashTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/KoalaCash.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/KoalaCash";
+			};
+			name = Debug;
+		};
+		25CD2A932E38BBCB00D0EDFA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 43GHW8N2DC;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.yeesus0204.KoalaCashTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/KoalaCash.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/KoalaCash";
+			};
+			name = Release;
+		};
+		25CD2A952E38BBCB00D0EDFA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 43GHW8N2DC;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.yeesus0204.KoalaCashUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = KoalaCash;
+			};
+			name = Debug;
+		};
+		25CD2A962E38BBCB00D0EDFA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 43GHW8N2DC;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.yeesus0204.KoalaCashUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = KoalaCash;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		25CD2A662E38BBC900D0EDFA /* Build configuration list for PBXProject "KoalaCash" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				25CD2A8C2E38BBCB00D0EDFA /* Debug */,
+				25CD2A8D2E38BBCB00D0EDFA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		25CD2A8E2E38BBCB00D0EDFA /* Build configuration list for PBXNativeTarget "KoalaCash" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				25CD2A8F2E38BBCB00D0EDFA /* Debug */,
+				25CD2A902E38BBCB00D0EDFA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		25CD2A912E38BBCB00D0EDFA /* Build configuration list for PBXNativeTarget "KoalaCashTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				25CD2A922E38BBCB00D0EDFA /* Debug */,
+				25CD2A932E38BBCB00D0EDFA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		25CD2A942E38BBCB00D0EDFA /* Build configuration list for PBXNativeTarget "KoalaCashUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				25CD2A952E38BBCB00D0EDFA /* Debug */,
+				25CD2A962E38BBCB00D0EDFA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 25CD2A632E38BBC900D0EDFA /* Project object */;
+}
