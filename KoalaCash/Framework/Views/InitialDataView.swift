@@ -15,8 +15,18 @@ struct InitialDataView: View {
             BackgroundView()
             
             ScrollView {
-                VStack(alignment: .leading, spacing: 24) {
-                    TitleSubtitleView(title: "¡Comenzemos!", subtitle: "Te pediremos que nos de los datos necesarios para poder comenzar a trabajar con tu KoalaCash")
+                VStack(alignment: .leading) {
+                    TitleSubtitleView(title: "¡Comenzemos!", subtitle: "Te pediremos que proporciones los siguientes datos para poder comenzar a trabajar con KoalaCash")
+                    
+                    HStack {
+                        Spacer()
+                        Image("Onboarding_Koala")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(height: 180)
+                            .accessibilityHidden(true)
+                        Spacer()
+                    }
                     
                     FechaPicker(label: "Fecha de tu próximo depósito", selectedDate: $onboardingViewModel.fortnightDate, title: true)
                     
@@ -25,7 +35,7 @@ struct InitialDataView: View {
                     MoneyField(
                                 label: "Monto",
                                 amount: $onboardingViewModel.budgetValue,
-                                currencyCode: "MXN",
+                                currencyCode: onboardingViewModel.currencyValue,
                                 title: true,
                                 placeholder: "0.00",
                                 showsSymbol: true,
@@ -44,6 +54,7 @@ struct InitialDataView: View {
                     foregroundColor: .white
                 )
             }
+            .ignoresSafeArea(.keyboard, edges: .bottom)
         }
         .onTapGesture {
             UIApplication.shared.hideKeyboard()

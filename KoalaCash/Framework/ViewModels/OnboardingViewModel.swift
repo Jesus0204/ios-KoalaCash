@@ -11,7 +11,7 @@ class OnboardingViewModel: ObservableObject {
     @Published var isOnboardingCompleted: Bool = false
     @Published var fortnightDate : Date = Date()
     @Published var currencyValue : String = "MXN"
-    @Published var budgetValue : Decimal = 0.00
+    @Published var budgetValue : Decimal? = nil
 }
 
 extension OnboardingViewModel {

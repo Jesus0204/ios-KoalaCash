@@ -23,7 +23,7 @@ struct FechaPicker: View {
     let endDate = Calendar.current.date(byAdding: .year, value: +100, to: Date())!
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 4) {
+        VStack(alignment: .leading) {
             if title {
                 Text(label)
                     .font(.title3)
@@ -77,7 +77,7 @@ struct FechaPicker: View {
             }
         }
         .padding(.horizontal, 24)
-        .padding(.bottom, 24)
+        .padding(.bottom, 8)
         .frame(maxWidth: .infinity)
     }
 }

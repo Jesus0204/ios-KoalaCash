@@ -46,6 +46,6 @@ struct DropdownField: View {
             .buttonStyle(PlainButtonStyle())
         }
         .padding(.horizontal, 24)
-        .padding(.bottom, 24)
+        .padding(.bottom, 8)
     }
 }
