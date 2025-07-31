@@ -51,7 +51,9 @@ struct InitialDataView: View {
                 Spacer()
                 CustomButton(
                     text: "Guardar y seguir",
-                    action: { },
+                    action: {
+                        onboardingViewModel.validarDatosApp()
+                    },
                     backgroundColor: .black,
                     foregroundColor: .white
                 )

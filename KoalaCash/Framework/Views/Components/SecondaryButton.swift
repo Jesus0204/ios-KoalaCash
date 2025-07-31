@@ -17,14 +17,14 @@ struct SecondaryButton: View {
                 .font(.system(.body, design: .rounded).weight(.semibold))
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, 14)
+                .background(
+                    RoundedRectangle(cornerRadius: 16)
+                        .stroke(Color.black, lineWidth: 1)
+                )
+                .contentShape(Rectangle())
         }
-        .background(
-            RoundedRectangle(cornerRadius: 16)
-                .stroke(Color.black, lineWidth: 1)
-        )
-        .contentShape(Rectangle())
+        .buttonStyle(PlainButtonStyle())
         .padding(.horizontal, 24)
         .padding(.bottom, 24)
-        .buttonStyle(PlainButtonStyle())
     }
 }
