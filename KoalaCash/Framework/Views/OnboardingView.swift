@@ -52,8 +52,6 @@ struct OnboardingView: View {
                 switch value {
                 case .menu:
                     MenuView(path: $path)
-                case .login:
-                    LoginView(path: $path)
                 case .register:
                     InitialDataView(path: $path)
                 case .forgottenPassword:

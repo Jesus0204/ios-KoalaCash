@@ -6,6 +6,12 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		2596ABE92E3B7E85003F4E85 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 2596ABE82E3B7E85003F4E85 /* Alamofire */; };
+		25CC91832E3B7DCD0020EE23 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 25CC91822E3B7DCD0020EE23 /* FirebaseAuth */; };
+		25CC91852E3B7DCD0020EE23 /* FirebaseAuthCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = 25CC91842E3B7DCD0020EE23 /* FirebaseAuthCombine-Community */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		25CD2A7B2E38BBCB00D0EDFA /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -52,6 +58,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2596ABE92E3B7E85003F4E85 /* Alamofire in Frameworks */,
+				25CC91832E3B7DCD0020EE23 /* FirebaseAuth in Frameworks */,
+				25CC91852E3B7DCD0020EE23 /* FirebaseAuthCombine-Community in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -112,6 +121,9 @@
 			);
 			name = KoalaCash;
 			packageProductDependencies = (
+				25CC91822E3B7DCD0020EE23 /* FirebaseAuth */,
+				25CC91842E3B7DCD0020EE23 /* FirebaseAuthCombine-Community */,
+				2596ABE82E3B7E85003F4E85 /* Alamofire */,
 			);
 			productName = KoalaCash;
 			productReference = 25CD2A6B2E38BBC900D0EDFA /* KoalaCash.app */;
@@ -196,6 +208,10 @@
 			);
 			mainGroup = 25CD2A622E38BBC900D0EDFA;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				25CC91812E3B7DCD0020EE23 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				2596ABE72E3B7E85003F4E85 /* XCRemoteSwiftPackageReference "Alamofire" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 25CD2A6C2E38BBC900D0EDFA /* Products */;
 			projectDirPath = "";
@@ -563,6 +579,43 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		2596ABE72E3B7E85003F4E85 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.10.2;
+			};
+		};
+		25CC91812E3B7DCD0020EE23 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 12.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		2596ABE82E3B7E85003F4E85 /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2596ABE72E3B7E85003F4E85 /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+		25CC91822E3B7DCD0020EE23 /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 25CC91812E3B7DCD0020EE23 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		25CC91842E3B7DCD0020EE23 /* FirebaseAuthCombine-Community */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 25CC91812E3B7DCD0020EE23 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = "FirebaseAuthCombine-Community";
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 25CD2A632E38BBC900D0EDFA /* Project object */;
 }

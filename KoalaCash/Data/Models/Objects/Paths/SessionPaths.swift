@@ -9,7 +9,6 @@ import Foundation
 
 enum SessionPaths: Hashable {
     case menu
-    case login
     case register
     case forgottenPassword
 }

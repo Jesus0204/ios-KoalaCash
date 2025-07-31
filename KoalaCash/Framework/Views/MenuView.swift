@@ -73,19 +73,11 @@ struct MenuView: View {
                     backgroundColor: .black,
                     foregroundColor: .white
                 )
-
-                Button(
-                    action: {
-                        path.append(.register)
-                    }
-                ){
-                    Text("¿No tienes cuenta? Crear cuenta")
-                        .underline()
-                        .font(.system(.body, design: .rounded))
-                        .foregroundColor(.black)
+                .padding(.top, 10)
+                
+                SecondaryButton(text: "Crear cuenta") {
+                    path.append(.register)
                 }
-                .padding(.bottom, 16)
-                .buttonStyle(PlainButtonStyle())
             }
             .onTapGesture {
                 UIApplication.shared.hideKeyboard()
