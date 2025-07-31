@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct SettingsView: View {
+    @EnvironmentObject var sessionManager: SessionManager
     @StateObject private var onboardingViewModel = OnboardingViewModel()
     
     var body: some View {
@@ -48,7 +49,11 @@ struct SettingsView: View {
                     VStack {
                         Spacer()
                         Button(
-                            action: {}
+                            action: {
+                                Task {
+                                    await sessionManager.signOut()
+                                }
+                            }
                         ){
                             Text("Cerrar Sesión")
                                 .underline()

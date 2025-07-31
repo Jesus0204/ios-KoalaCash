@@ -23,6 +23,8 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 struct KoalaCashApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     
+    @StateObject var sessionManager = SessionManager()
+    
     init() {
         let appearance = UINavigationBarAppearance()
 
@@ -55,6 +57,7 @@ struct KoalaCashApp: App {
         WindowGroup {
             NavigationView {
                 SessionCoordinatorView()
+                    .environmentObject(sessionManager)
             }
             .navigationViewStyle(StackNavigationViewStyle())
         }

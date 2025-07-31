@@ -25,6 +25,12 @@ class OnboardingViewModel: ObservableObject {
     @Published var messageAlert = ""
     @Published var showAlert = false
     
+    var signUpRequirement: SignUpRequirementProtocol
+    
+    init(signUpRequirement: SignUpRequirementProtocol = SignUpRequirement.shared) {
+        self.signUpRequirement = signUpRequirement
+    }
+    
     func isOnlyText(_ text: String) -> Bool {
         let regex = "^[\\p{L} ]+$"
         let predicate = NSPredicate(format: "SELF MATCHES %@", regex)
@@ -106,6 +112,22 @@ class OnboardingViewModel: ObservableObject {
             self.messageAlert = "La contraseña debe contener al menos una letra minúscula, una letra mayúscula, un número y un carácter especial."
             self.showAlert = true
             return
+        }
+        
+        let usuarioNuevo = UserNuevo(email: self.email, password: self.password, nickname: self.nickname,
+                                     fortnightDate: self.fortnightDate, currencyValue: self.currencyValue, budgetValue: self.budgetValue ?? 0)
+        
+        let responseCode = await self.signUpRequirement.registrarUsuario(UserDatos: usuarioNuevo)
+        
+        if responseCode == 406 {
+            self.messageAlert = "La contraseña es demasiado corta. Debe tener al menos 6 caracteres."
+            self.showAlert = true
+        } else if responseCode == 405 {
+            self.messageAlert = "El correo electrónico proporcionado no es válido."
+            self.showAlert = true
+        } else if responseCode != 201 {
+            self.messageAlert = "Hubo un error al registrar al usuario. Favor de intentarlo de nuevo."
+            self.showAlert = true
         }
     }
 }

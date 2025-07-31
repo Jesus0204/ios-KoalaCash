@@ -8,12 +8,16 @@
 import SwiftUI
 
 struct SessionCoordinatorView: View {
+    @EnvironmentObject var sessionManager: SessionManager
     @State private var isAppLoading = false
     var body: some View {
         ZStack {
-            if isAppLoading {
+            if isAppLoading || sessionManager.isLoading {
                 LoadingView()
-            } else {
+            } else if sessionManager.isAuthenticated  {
+                MainTabView()
+            }
+            else {
                 OnboardingView()
             }
         }
