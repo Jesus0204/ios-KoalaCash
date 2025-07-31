@@ -10,9 +10,7 @@ import SwiftUI
 struct MenuView: View {
     @Binding var path: [SessionPaths]
     
-    @State private var email: String = ""
-    @State private var password: String = ""
-    @State private var isPasswordVisible: Bool = false
+    @StateObject private var loginViewModel = LoginViewModel()
     
     var body: some View {
         ZStack {
@@ -37,15 +35,15 @@ struct MenuView: View {
                 
                 VStack(spacing: 16) {
                     VStack(alignment: .leading) {
-                        EmailField(email: $email,
+                        EmailField(email: $loginViewModel.email,
                                    text: "Correo electrónico",
                                    placeholder: "Escribe tu correo...")
                     }
                     
                     VStack(alignment: .leading) {
                         PasswordField(
-                            password: $password,
-                            isPasswordVisible: $isPasswordVisible,
+                            password: $loginViewModel.password,
+                            isPasswordVisible: $loginViewModel.isPasswordVisible,
                             text: "Contraseña"
                         )
                     }
@@ -69,7 +67,11 @@ struct MenuView: View {
 
                 CustomButton(
                     text: "Iniciar sesión",
-                    action: {},
+                    action: {
+                        Task {
+                            await loginViewModel.iniciarSesion()
+                        }
+                    },
                     backgroundColor: .black,
                     foregroundColor: .white
                 )
@@ -81,6 +83,12 @@ struct MenuView: View {
             }
             .onTapGesture {
                 UIApplication.shared.hideKeyboard()
+            }
+            .alert(isPresented: $loginViewModel.showAlert) {
+                Alert(
+                    title: Text("Oops!"),
+                    message: Text(loginViewModel.messageAlert)
+                )
             }
         }
     }

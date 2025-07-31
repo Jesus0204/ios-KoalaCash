@@ -57,7 +57,7 @@ struct OnboardingView: View {
                 case .accountDetails:
                     AccountDataView()
                 case .forgottenPassword:
-                    PasswordRecoveryView()
+                    PasswordRecoveryView(path: $path)
                 }
             }
         }

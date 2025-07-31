@@ -61,7 +61,7 @@ class SessionAPIService {
             // Obtener el ID Token del usuario autenticado
             let idToken = try await authResult.user.getIDToken()
             
-            return 201
+            return 200
         } catch {
             // Manejo de errores de inicio de sesión
             print("Error al iniciar sesión: \(error.localizedDescription)")

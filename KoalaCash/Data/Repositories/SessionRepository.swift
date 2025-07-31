@@ -31,4 +31,8 @@ class SessionRepository: SessionAPIProtocol {
     func iniciarSesion(UserDatos: User) async -> Int? {
         return await sessionService.iniciarSesion(UserDatos: UserDatos)
     }
+    
+    func emailRestablecerContraseña(email: String) async -> Bool {
+        return await sessionService.emailRestablecerContraseña(email: email)
+    }
 }
