@@ -1,15 +1,13 @@
 //
-//  InitialDataView.swift
+//  SettingsView.swift
 //  KoalaCash
 //
-//  Created by Jesus Cedillo on 29/07/25.
+//  Created by Jesus Cedillo on 31/07/25.
 //
 
 import SwiftUI
 
-struct InitialDataView: View {
-    @Binding var path: [SessionPaths]
-    
+struct SettingsView: View {
     @StateObject private var onboardingViewModel = OnboardingViewModel()
     
     var body: some View {
@@ -17,12 +15,13 @@ struct InitialDataView: View {
             BackgroundView()
             
             ScrollView {
-                VStack() {
-                    TitleSubtitleView(title: "¡Comenzemos!", subtitle: "Configura tu quincena y moneda base. Podrás cambiarlos en Ajustes.")
+                VStack {
+                    TitleSubtitleView(title: "Ajustes", subtitle: "Aquí puedes ajustar tu fecha de depósito, la moneda principal y tu presupuesto de quincena.")
+                        .padding(.bottom, 14)
                     
                     HStack {
                         Spacer()
-                        Image("Onboarding_Koala")
+                        Image("koala_Settings")
                             .resizable()
                             .scaledToFit()
                             .frame(height: 180)
@@ -46,34 +45,10 @@ struct InitialDataView: View {
                             )
                 }
             }
-            
-            VStack {
-                Spacer()
-                CustomButton(
-                    text: "Guardar y seguir",
-                    action: { },
-                    backgroundColor: .black,
-                    foregroundColor: .white
-                )
-            }
-            .ignoresSafeArea(.keyboard, edges: .bottom)
-        }
-        .onTapGesture {
-            UIApplication.shared.hideKeyboard()
         }
     }
 }
 
-struct InitialDataView_Previews: PreviewProvider {
-    static var previews: some View {
-        PreviewWrapper()
-    }
-
-    struct PreviewWrapper: View {
-        @State var path: [SessionPaths] = []
-
-        var body: some View {
-            InitialDataView(path: $path)
-        }
-    }
+#Preview {
+    SettingsView()
 }

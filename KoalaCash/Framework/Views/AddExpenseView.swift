@@ -11,6 +11,7 @@ struct AddExpenseView: View {
     @State private var currencyValue : String = "MXN"
     @State private var categoryValue : String = "Renta"
     @State private var budgetValue : Decimal? = nil
+    
     var body: some View {
         ZStack {
             BackgroundView()
