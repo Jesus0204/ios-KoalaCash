@@ -9,6 +9,7 @@ import SwiftUI
 
 struct AddExpenseView: View {
     @State private var currencyValue : String = "MXN"
+    @State private var categoryValue : String = "Renta"
     @State private var budgetValue : Decimal? = nil
     var body: some View {
         ZStack {
@@ -40,6 +41,8 @@ struct AddExpenseView: View {
                                 maximumFractionDigits: 2,
                                 allowsNegative: false
                             )
+                    
+                    DropdownField(label: "Categoría del gasto", options: ["Renta", "Supermercado", "Transporte", "Lavandería", "Comidas en restaurante", "Datos móviles", "Entretenimiento", "Cine" ], selectedOption: $categoryValue, title: true)
                 }
             }
             
