@@ -12,6 +12,8 @@ struct AddExpenseView: View {
     @State private var categoryValue : String = "Renta"
     @State private var budgetValue : Decimal? = nil
     
+    @Binding var path: [DashboardPaths]
+    
     var body: some View {
         ZStack {
             BackgroundView()
@@ -51,7 +53,9 @@ struct AddExpenseView: View {
                 Spacer()
                 CustomButton(
                     text: "Guardar gasto",
-                    action: { },
+                    action: {
+                        path.removeLast()
+                    },
                     backgroundColor: .black,
                     foregroundColor: .white
                 )
@@ -61,6 +65,16 @@ struct AddExpenseView: View {
     }
 }
 
-#Preview {
-    AddExpenseView()
+struct AddExpenseView_Previews: PreviewProvider {
+    static var previews: some View {
+        PreviewWrapper()
+    }
+
+    struct PreviewWrapper: View {
+        @State var path: [SessionPaths] = []
+
+        var body: some View {
+            AddExpenseView(path: $path)
+        }
+    }
 }

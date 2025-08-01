@@ -131,7 +131,7 @@ struct DashboardView: View {
             .navigationDestination(for: DashboardPaths.self) { value in
                 switch value {
                 case .addExpense:
-                    AddExpenseView()
+                    AddExpenseView(path: $path)
                 }
             }
         }
