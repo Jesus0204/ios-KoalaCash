@@ -61,55 +61,78 @@ final class DashboardViewModel: ObservableObject {
 // MARK: - DashboardView
 
 struct DashboardView: View {
+    @EnvironmentObject var sessionManager: SessionManager
     @StateObject private var vm = DashboardViewModel()
     
+    @State private var path: [DashboardPaths] = []
+    
     var body: some View {
-        ZStack {
-            BackgroundView()
-            
-            ScrollView {
-                VStack(alignment: .leading, spacing: 24) {
-                    
-                    Text("Hola, \(vm.userName) 👋")
-                        .font(.largeTitle.bold())
-                        .padding(.top, 16)
-                    
-                    VStack(alignment: .leading, spacing: 8) {
+        NavigationStack(path: $path) {
+            ZStack {
+                BackgroundView()
+                
+                ScrollView {
+                    VStack(alignment: .leading, spacing: 24) {
+                        
                         HStack {
-                            Text("Gastado")
+                            Text("Hola, \(sessionManager.storedUser?.nickname ?? "") 👋")
+                                .font(.largeTitle.bold())
+                                .padding(.top, 16)
+                            
                             Spacer()
-                            Text(vm.spentMXN, format: .currency(code: "MXN"))
-                            Text("de")
-                            Text(vm.budgetMXN, format: .currency(code: "MXN"))
+                            
+                            Button(action: {
+                                path.append(.addExpense)
+                            }, label: {
+                                Image(systemName: "plus")
+                                    .padding(.trailing, 8)
+                            })
+                            .buttonStyle(PlainButtonStyle())
                         }
-                        ProgressView(value: vm.spentRatio)
-                            .progressViewStyle(LinearProgressViewStyle(tint: Color("mintTeal")))
-                        Text("Próximo depósito en \(vm.daysUntilNextDeposit) días")
-                            .font(.subheadline)
-                            .foregroundStyle(.secondary)
-                    }
-                    .padding()
-                    .background(.thinMaterial)
-                    .cornerRadius(12)
-                    
-                    TitleSubtitleView(title: "Gastos por categoría", subtitle: "")
-                    
-                    CategoryChartView(data: vm.categoryData)
-                        .frame(height: 120)
-                    
-                    TitleSubtitleView(title: "Gastos recientes", subtitle: "Toque para ver más detalles")
-                    
-                    ForEach(vm.recentExpenses) { expense in
-                        NavigationLink {
-                        } label: {
-                            ExpenseRowView(expense: expense)
+                        
+                        VStack(alignment: .leading, spacing: 8) {
+                            HStack {
+                                Text("Gastado")
+                                Spacer()
+                                Text(vm.spentMXN, format: .currency(code: "MXN"))
+                                Text("de")
+                                Text(vm.budgetMXN, format: .currency(code: "MXN"))
+                            }
+                            ProgressView(value: vm.spentRatio)
+                                .progressViewStyle(LinearProgressViewStyle(tint: Color("mintTeal")))
+                            Text("Próximo depósito en \(vm.daysUntilNextDeposit) días")
+                                .font(.subheadline)
+                                .foregroundStyle(.secondary)
                         }
-                        .buttonStyle(.plain)
+                        .padding()
+                        .background(.thinMaterial)
+                        .cornerRadius(12)
+                        
+                        TitleSubtitleView(title: "Gastos por categoría", subtitle: "")
+                        
+                        CategoryChartView(data: vm.categoryData)
+                            .frame(height: 120)
+                        
+                        TitleSubtitleView(title: "Gastos recientes", subtitle: "Toque para ver más detalles")
+                        
+                        ForEach(vm.recentExpenses) { expense in
+                            NavigationLink {
+                            } label: {
+                                ExpenseRowView(expense: expense)
+                            }
+                            .buttonStyle(.plain)
+                        }
+                        
+                        Spacer(minLength: 32)
                     }
-                    
-                    Spacer(minLength: 32)
+                    .padding(.horizontal)
                 }
-                .padding(.horizontal)
+            }
+            .navigationDestination(for: DashboardPaths.self) { value in
+                switch value {
+                case .addExpense:
+                    AddExpenseView()
+                }
             }
         }
     }
