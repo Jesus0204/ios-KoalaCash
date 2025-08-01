@@ -57,11 +57,51 @@ class SessionManager: ObservableObject {
         let desc = FetchDescriptor<StoredUser>(predicate: #Predicate { $0.firebaseUID == uid })
         do {
             storedUser = try modelContext.fetch(desc).first
-            print(storedUser?.firebaseUID)
-            print(modelContext.sqliteCommand)
+            if let user = storedUser {
+                createQuincenaIfNeeded(for: user)
+            }
         } catch {
             print("❌ Error al fetch de StoredUser:", error)
             storedUser = nil
+        }
+    }
+    
+    private func createQuincenaIfNeeded(for user: StoredUser) {
+        let calendar = Calendar.current
+        var nextDate = user.fortnightDate
+        let now = Date()
+
+        while nextDate <= now {
+            if user.quincenas.first(where: { calendar.isDate($0.fechaInicio, inSameDayAs: nextDate) }) == nil {
+                let endDate = calendar.date(byAdding: .day, value: 14, to: nextDate) ?? nextDate
+
+                for quincena in user.quincenas where quincena.active {
+                    quincena.active = false
+                }
+
+                let nuevaQuincena = Quincena(
+                    fechaInicio: nextDate,
+                    fechaFin: endDate,
+                    budgetAmount: user.budgetValue,
+                    budgetCurrency: user.currencyValue,
+                    spent: 0,
+                    active: true
+                )
+                nuevaQuincena.user = user
+                modelContext.insert(nuevaQuincena)
+
+                user.fortnightDate = endDate
+                nextDate = endDate
+            } else {
+                nextDate = calendar.date(byAdding: .day, value: 14, to: nextDate) ?? nextDate
+                user.fortnightDate = nextDate
+            }
+        }
+
+        do {
+            try modelContext.save()
+        } catch {
+            print("Error al guardar Quincena automáticamente: \(error)")
         }
     }
     

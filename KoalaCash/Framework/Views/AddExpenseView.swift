@@ -71,7 +71,7 @@ struct AddExpenseView_Previews: PreviewProvider {
     }
 
     struct PreviewWrapper: View {
-        @State var path: [SessionPaths] = []
+        @State var path: [DashboardPaths] = []
 
         var body: some View {
             AddExpenseView(path: $path)
