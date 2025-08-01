@@ -6,9 +6,10 @@
 //
 
 import Foundation
+import SwiftData
 
 protocol SessionAPIProtocol {
-    func registrarUsuario(UserDatos: UserNuevo) async -> Int?
+    func registrarUsuario(UserDatos: UserNuevo, context: ModelContext) async -> Int?
 }
 
 class SessionRepository: SessionAPIProtocol {
@@ -24,8 +25,8 @@ class SessionRepository: SessionAPIProtocol {
             self.sessionService = sessionService
         }
     
-    func registrarUsuario(UserDatos: UserNuevo) async -> Int? {
-        return await sessionService.registrarUsuario(UserDatos: UserDatos)
+    func registrarUsuario(UserDatos: UserNuevo, context: ModelContext) async -> Int? {
+        return await sessionService.registrarUsuario(UserDatos: UserDatos, context: context)
     }
     
     func iniciarSesion(UserDatos: User) async -> Int? {

@@ -25,7 +25,10 @@ struct KoalaCashApp: App {
     
     @StateObject var sessionManager = SessionManager()
     
+    let container: ModelContainer
+    
     init() {
+        container = try! ModelContainer(for: StoredUser.self)
         let appearance = UINavigationBarAppearance()
 
         appearance.configureWithTransparentBackground()
@@ -60,6 +63,7 @@ struct KoalaCashApp: App {
                     .environmentObject(sessionManager)
             }
             .navigationViewStyle(StackNavigationViewStyle())
+            .environment(\.modelContext, container.mainContext)
         }
     }
 }

@@ -6,9 +6,11 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct AccountDataView: View {
     @StateObject private var onboardingViewModel = OnboardingViewModel()
+    @Environment(\.modelContext) private var modelContext
     
     var body: some View {
         ZStack {
@@ -72,7 +74,7 @@ struct AccountDataView: View {
                     CustomButton(
                         text: "Crear cuenta",
                         action: {
-                            Task { await onboardingViewModel.registrarUsuario() }
+                            Task { await onboardingViewModel.registrarUsuario(context: modelContext) }
                         },
                         backgroundColor: .black,
                         foregroundColor: .white

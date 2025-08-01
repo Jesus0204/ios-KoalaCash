@@ -6,9 +6,10 @@
 //
 
 import Foundation
+import SwiftData
 
 protocol SignUpRequirementProtocol {
-    func registrarUsuario(UserDatos: UserNuevo) async -> Int?
+    func registrarUsuario(UserDatos: UserNuevo, context: ModelContext) async -> Int?
 }
 
 class SignUpRequirement: SignUpRequirementProtocol {
@@ -23,7 +24,7 @@ class SignUpRequirement: SignUpRequirementProtocol {
         self.sessionRepository = sessionRepository
     }
     
-    func registrarUsuario(UserDatos: UserNuevo) async -> Int? {
-        return await sessionRepository.registrarUsuario(UserDatos: UserDatos)
+    func registrarUsuario(UserDatos: UserNuevo, context: ModelContext) async -> Int? {
+        return await sessionRepository.registrarUsuario(UserDatos: UserDatos, context: context)
     }
 }

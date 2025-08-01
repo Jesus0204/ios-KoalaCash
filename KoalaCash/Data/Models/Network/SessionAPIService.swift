@@ -8,6 +8,7 @@
 import Foundation
 import FirebaseAuth
 import Alamofire
+import SwiftData
 
 class SessionAPIService {
     static let shared = SessionAPIService()
@@ -19,13 +20,24 @@ class SessionAPIService {
         return configuration
     }())
     
-    func registrarUsuario(UserDatos: UserNuevo) async -> Int? {
+    func registrarUsuario(UserDatos: UserNuevo, context: ModelContext) async -> Int? {
         do {
             // Crear el usuario en Firebase Authentication
             let authResult = try await Auth.auth().createUser(withEmail: UserDatos.email, password: UserDatos.password)
             
             // Obtener el UID de Firebase Authentication
             let firebaseUID = authResult.user.uid
+            
+            let newUser = StoredUser(
+                firebaseUID: firebaseUID,
+                email: UserDatos.email,
+                nickname: UserDatos.nickname,
+                fortnightDate: UserDatos.fortnightDate,
+                currencyValue: UserDatos.currencyValue,
+                budgetValue: UserDatos.budgetValue
+            )
+            context.insert(newUser)
+            try? context.save()
             
             // Mandas el correo de verificación
             try await authResult.user.sendEmailVerification()

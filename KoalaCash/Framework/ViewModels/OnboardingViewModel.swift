@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftData
 
 class OnboardingViewModel: ObservableObject {
     @Published var isOnboardingCompleted: Bool = false
@@ -71,7 +72,7 @@ class OnboardingViewModel: ObservableObject {
     }
     
     @MainActor
-    func registrarUsuario() async {
+    func registrarUsuario(context: ModelContext) async {
         if self.email.isEmpty || self.nickname.isEmpty || self.password.isEmpty || self.confirmPassword.isEmpty {
             self.messageAlert = "Alguno de los campos está vacío. Favor de completarlos."
             self.showAlert = true
@@ -117,7 +118,7 @@ class OnboardingViewModel: ObservableObject {
         let usuarioNuevo = UserNuevo(email: self.email, password: self.password, nickname: self.nickname,
                                      fortnightDate: self.fortnightDate, currencyValue: self.currencyValue, budgetValue: self.budgetValue ?? 0)
         
-        let responseCode = await self.signUpRequirement.registrarUsuario(UserDatos: usuarioNuevo)
+        let responseCode = await self.signUpRequirement.registrarUsuario(UserDatos: usuarioNuevo, context: context)
         
         if responseCode == 406 {
             self.messageAlert = "La contraseña es demasiado corta. Debe tener al menos 6 caracteres."
