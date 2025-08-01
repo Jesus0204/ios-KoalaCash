@@ -40,8 +40,8 @@ class SessionAPIService {
             context.insert(newUser)
             
             do {
-                print("StoredUser guardado con éxito.")
                 try context.save()
+                print("StoredUser guardado con éxito.")
             } catch {
                 print("❌ Error al guardar StoredUser:", error.localizedDescription)
             }
