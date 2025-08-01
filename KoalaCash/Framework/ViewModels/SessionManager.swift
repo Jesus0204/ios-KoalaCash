@@ -26,7 +26,7 @@ class SessionManager: ObservableObject {
         self.modelContext = context
         setupAuthStateListener()
     }
-
+    
     deinit {
         removeAuthStateListener()
     }
@@ -53,7 +53,7 @@ class SessionManager: ObservableObject {
             storedUser = nil
             return
         }
-
+        
         let desc = FetchDescriptor<StoredUser>(predicate: #Predicate { $0.firebaseUID == uid })
         do {
             storedUser = try modelContext.fetch(desc).first
@@ -62,6 +62,11 @@ class SessionManager: ObservableObject {
             print("❌ Error al fetch de StoredUser:", error)
             storedUser = nil
         }
+    }
+    
+    @MainActor
+    func reloadStoredUser() {
+        fetchStoredUser(for: Auth.auth().currentUser)
     }
     
     @MainActor
