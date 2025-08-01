@@ -12,18 +12,15 @@ class DashboardViewModel: ObservableObject {
     @Published var spentUserCurrency: Decimal = 0
     @Published var budgetUserCurrency: Decimal = 0
     @Published var daysUntilNextDeposit: Int = 0
+    @Published var noExpensesMessage: String? = nil
 
     struct CategoryData: Identifiable {
         var id: String { name }
         let name: String
         let amountMXN: Double
     }
-    @Published var categoryData: [CategoryData] = [
-        .init(name: "Renta", amountMXN: 4000),
-        .init(name: "Supermercado", amountMXN: 2500),
-        .init(name: "Internet", amountMXN: 500),
-        .init(name: "Entretenimiento", amountMXN: 1000)
-    ]
+    
+    @Published var categoryData: [CategoryData] = []
 
     struct ExpenseSummary: Identifiable {
         let id: String
@@ -33,11 +30,7 @@ class DashboardViewModel: ObservableObject {
         let convertedAmount: String
         let isPaid: Bool
     }
-    @Published var recentExpenses: [ExpenseSummary] = [
-        .init(id: "1", title: "Cena en restaurante", date: Date(), originalAmount: "AUD 80.00", convertedAmount: "≈ MXN 912", isPaid: false),
-        .init(id: "2", title: "Lavandería", date: Date().addingTimeInterval(-86400), originalAmount: "AUD 15.00", convertedAmount: "≈ MXN 171", isPaid: true),
-        .init(id: "3", title: "Supermercado", date: Date().addingTimeInterval(-2 * 86400), originalAmount: "MXN 1200.00", convertedAmount: "MXN 1200", isPaid: true)
-    ]
+    @Published var recentExpenses: [ExpenseSummary] = []
 
     var spentRatio: Double {
         guard budgetUserCurrency > 0 else { return 0 }
@@ -51,6 +44,9 @@ class DashboardViewModel: ObservableObject {
             spentUserCurrency = 0
             budgetUserCurrency = 0
             daysUntilNextDeposit = 0
+            categoryData = []
+            recentExpenses = []
+            noExpensesMessage = "No hay gastos para esta quincena."
             return
         }
 
@@ -60,9 +56,48 @@ class DashboardViewModel: ObservableObject {
         if let quincena = user.quincenas.first(where: { $0.active }) {
             spentUserCurrency = quincena.spent
             budgetUserCurrency = quincena.budgetAmount
+            
+            let expenses = quincena.expenses.sorted { $0.datePurchase > $1.datePurchase }
+            if expenses.isEmpty {
+                noExpensesMessage = "No hay gastos para esta quincena."
+                categoryData = []
+                recentExpenses = []
+            } else {
+                noExpensesMessage = nil
+                var totals: [String: Decimal] = [:]
+                for exp in expenses {
+                    totals[exp.category, default: 0] += exp.convertedAmount
+                }
+                categoryData = totals.map {
+                    CategoryData(name: $0.key, amountMXN: NSDecimalNumber(decimal: $0.value).doubleValue)
+                }
+
+                recentExpenses = expenses.prefix(5).map { exp in
+                    ExpenseSummary(
+                        id: exp.expenseID.uuidString,
+                        title: exp.category,
+                        date: exp.datePurchase,
+                        originalAmount: format(amount: exp.originalAmount, code: exp.originalCurrency),
+                        convertedAmount: format(amount: exp.convertedAmount, code: exp.convertedCurrency),
+                        isPaid: exp.frozen
+                    )
+                }
+            }
         } else {
             spentUserCurrency = 0
             budgetUserCurrency = user.budgetValue
+            categoryData = []
+            recentExpenses = []
+            noExpensesMessage = "No hay gastos para esta quincena."
         }
+    }
+    
+    private func format(amount: Decimal, code: String) -> String {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .currency
+        formatter.currencyCode = code
+        formatter.maximumFractionDigits = 2
+        let number = NSDecimalNumber(decimal: amount)
+        return formatter.string(from: number) ?? "\(code) \(number)"
     }
 }

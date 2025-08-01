@@ -60,8 +60,8 @@ struct AddExpenseView: View {
                             Task {
                                 await addExpenseViewModel.guardarGasto(usuario: user, context: modelContext)
                                 if !addExpenseViewModel.showAlert {
-                                    sessionManager.reloadStoredUser()
                                     path.removeLast()
+                                    sessionManager.reloadStoredUser()
                                 }
                             }
                         }

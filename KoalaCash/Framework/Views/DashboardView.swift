@@ -58,17 +58,25 @@ struct DashboardView: View {
                         
                         TitleSubtitleView(title: "Gastos por categoría", subtitle: "")
                         
-                        CategoryChartView(data: dashboardViewModel.categoryData)
-                            .frame(height: 120)
+                        if !dashboardViewModel.categoryData.isEmpty {
+                            CategoryChartView(data: dashboardViewModel.categoryData)
+                                .frame(height: 120)
+                        }
                         
-                        TitleSubtitleView(title: "Gastos recientes", subtitle: "Toque para ver más detalles")
+                        TitleSubtitleView(title: "Gastos recientes", subtitle: "")
                         
-                        ForEach(dashboardViewModel.recentExpenses) { expense in
-                            NavigationLink {
-                            } label: {
-                                ExpenseRowView(expense: expense)
+                        if let message = dashboardViewModel.noExpensesMessage {
+                            Text(message)
+                                .font(.subheadline)
+                                .foregroundStyle(.secondary)
+                        } else {
+                            ForEach(dashboardViewModel.recentExpenses) { expense in
+                                NavigationLink {
+                                } label: {
+                                    ExpenseRowView(expense: expense)
+                                }
+                                .buttonStyle(.plain)
                             }
-                            .buttonStyle(.plain)
                         }
                         
                         Spacer(minLength: 32)
