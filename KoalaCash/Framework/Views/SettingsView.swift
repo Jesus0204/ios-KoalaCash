@@ -34,7 +34,7 @@ struct SettingsView: View {
                         Spacer()
                     }
                     
-                    if let user = user {
+                    if let user = sessionManager.storedUser {
                         FechaPicker(
                             label: "Fecha de tu próximo depósito",
                             selectedDate: Binding(
