@@ -23,12 +23,14 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 struct KoalaCashApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     
-    @StateObject var sessionManager = SessionManager()
-    
     let container: ModelContainer
+    @StateObject var sessionManager: SessionManager
     
     init() {
-        container = try! ModelContainer(for: StoredUser.self)
+        let container = try! ModelContainer(for: StoredUser.self)
+        self.container = container
+        
+        _sessionManager = StateObject(wrappedValue: SessionManager(context: container.mainContext))
         let appearance = UINavigationBarAppearance()
 
         appearance.configureWithTransparentBackground()

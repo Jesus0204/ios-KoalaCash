@@ -7,13 +7,10 @@
 
 import SwiftUI
 import SwiftData
-import FirebaseAuth
 
 struct SettingsView: View {
     @EnvironmentObject var sessionManager: SessionManager
     @Environment(\.modelContext) private var modelContext
-    
-    @State private var user: StoredUser?
 
     var body: some View {
         ZStack {
@@ -96,19 +93,6 @@ struct SettingsView: View {
                     }
                     .ignoresSafeArea(.keyboard, edges: .bottom)
                 }
-            }
-        }
-        .onAppear {
-            guard let uid = Auth.auth().currentUser?.uid else {
-                print("⚠️ No hay usuario autenticado")
-                return
-            }
-            let desc = FetchDescriptor<StoredUser>(
-                predicate: #Predicate { $0.firebaseUID == uid })
-            do {
-                user = try modelContext.fetch(desc).first
-            } catch {
-                print("❌ Error al fetch de StoredUser:", error)
             }
         }
         .onTapGesture {
