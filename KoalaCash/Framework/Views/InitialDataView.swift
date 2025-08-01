@@ -10,7 +10,7 @@ import SwiftUI
 struct InitialDataView: View {
     @Binding var path: [SessionPaths]
     
-    @StateObject private var onboardingViewModel = OnboardingViewModel()
+    @ObservedObject var onboardingViewModel = OnboardingViewModel()
     
     var body: some View {
         ZStack {

@@ -9,7 +9,8 @@ import SwiftUI
 import SwiftData
 
 struct AccountDataView: View {
-    @StateObject private var onboardingViewModel = OnboardingViewModel()
+    @ObservedObject var onboardingViewModel = OnboardingViewModel()
+    
     @Environment(\.modelContext) private var modelContext
     @EnvironmentObject var sessionManager: SessionManager
     

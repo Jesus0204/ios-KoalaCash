@@ -9,6 +9,9 @@ import SwiftUI
 
 struct OnboardingView: View {
     @State private var path: [SessionPaths] = []
+    
+    @StateObject private var onboardingViewModel = OnboardingViewModel()
+    
     var body: some View {
         NavigationStack(path: $path) {
             ZStack {
@@ -53,9 +56,11 @@ struct OnboardingView: View {
                 case .menu:
                     MenuView(path: $path)
                 case .register:
-                    InitialDataView(path: $path)
+                    InitialDataView(
+                        path: $path,
+                        onboardingViewModel: onboardingViewModel)
                 case .accountDetails:
-                    AccountDataView()
+                    AccountDataView(onboardingViewModel: onboardingViewModel)
                 case .forgottenPassword:
                     PasswordRecoveryView(path: $path)
                 }

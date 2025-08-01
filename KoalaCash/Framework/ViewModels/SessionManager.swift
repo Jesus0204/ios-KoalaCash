@@ -58,6 +58,7 @@ class SessionManager: ObservableObject {
         do {
             storedUser = try modelContext.fetch(desc).first
             print(storedUser?.firebaseUID)
+            print(modelContext.sqliteCommand)
         } catch {
             print("❌ Error al fetch de StoredUser:", error)
             storedUser = nil
