@@ -62,3 +62,5 @@ fastlane/screenshots/**/*.png
 fastlane/test_output
 
 KoalaCash/GoogleService-Info.plist
+KoalaCash/Debug.xcconfig
+KoalaCash/Release.xcconfig

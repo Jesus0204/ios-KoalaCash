@@ -35,9 +35,34 @@
 		25CD2A842E38BBCB00D0EDFA /* KoalaCashUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KoalaCashUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		2596AC892E3CA083003F4E85 /* Exceptions for "KoalaCash" folder in "KoalaCash" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+				Release.xcconfig,
+			);
+			target = 25CD2A6A2E38BBC900D0EDFA /* KoalaCash */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
+		2596AC8A2E3CA083003F4E85 /* Exceptions for "KoalaCash" folder in "Compile Sources" phase from "KoalaCash" target */ = {
+			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
+			buildPhase = 25CD2A672E38BBC900D0EDFA /* Sources */;
+			membershipExceptions = (
+				Release.xcconfig,
+			);
+		};
+/* End PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		25CD2A6D2E38BBC900D0EDFA /* KoalaCash */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				2596AC892E3CA083003F4E85 /* Exceptions for "KoalaCash" folder in "KoalaCash" target */,
+				2596AC8A2E3CA083003F4E85 /* Exceptions for "KoalaCash" folder in "Compile Sources" phase from "KoalaCash" target */,
+			);
 			path = KoalaCash;
 			sourceTree = "<group>";
 		};
@@ -288,6 +313,8 @@
 /* Begin XCBuildConfiguration section */
 		25CD2A8C2E38BBCB00D0EDFA /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = 25CD2A6D2E38BBC900D0EDFA /* KoalaCash */;
+			baseConfigurationReferenceRelativePath = Debug.xcconfig;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -352,6 +379,8 @@
 		};
 		25CD2A8D2E38BBCB00D0EDFA /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = 25CD2A6D2E38BBC900D0EDFA /* KoalaCash */;
+			baseConfigurationReferenceRelativePath = Release.xcconfig;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -417,6 +446,8 @@
 				DEVELOPMENT_TEAM = 43GHW8N2DC;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = KoalaCash/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.finance";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -447,6 +478,8 @@
 				DEVELOPMENT_TEAM = 43GHW8N2DC;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = KoalaCash/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.finance";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;

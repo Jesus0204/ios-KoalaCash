@@ -6,13 +6,15 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct AddExpenseView: View {
-    @State private var currencyValue : String = "MXN"
-    @State private var categoryValue : String = "Renta"
-    @State private var budgetValue : Decimal? = nil
+    @StateObject private var addExpenseViewModel = AddExpenseViewModel()
     
     @Binding var path: [DashboardPaths]
+    
+    @Environment(\.modelContext) private var modelContext
+    @EnvironmentObject var sessionManager: SessionManager
     
     var body: some View {
         ZStack {
@@ -32,12 +34,12 @@ struct AddExpenseView: View {
                         Spacer()
                     }
                     
-                    DropdownField(label: "Moneda del gasto", options: ["MXN", "AUD", "USD", "EUR" ], selectedOption: $currencyValue, title: true)
+                    DropdownField(label: "Moneda del gasto", options: ["MXN", "AUD", "USD", "EUR" ], selectedOption: $addExpenseViewModel.currencyValue, title: true)
                     
                     MoneyField(
                                 label: "Monto del gasto",
-                                amount: $budgetValue,
-                                currencyCode: currencyValue,
+                                amount: $addExpenseViewModel.budgetValue,
+                                currencyCode: addExpenseViewModel.currencyValue,
                                 title: true,
                                 placeholder: "0.00",
                                 showsSymbol: true,
@@ -45,7 +47,7 @@ struct AddExpenseView: View {
                                 allowsNegative: false
                             )
                     
-                    DropdownField(label: "Categoría del gasto", options: ["Renta", "Supermercado", "Transporte", "Lavandería", "Comidas en restaurante", "Datos móviles", "Entretenimiento", "Cine" ], selectedOption: $categoryValue, title: true)
+                    DropdownField(label: "Categoría del gasto", options: ["Renta", "Supermercado", "Transporte", "Lavandería", "Comidas en restaurante", "Datos móviles", "Entretenimiento", "Cine" ], selectedOption: $addExpenseViewModel.categoryValue, title: true)
                 }
             }
             
@@ -54,13 +56,29 @@ struct AddExpenseView: View {
                 CustomButton(
                     text: "Guardar gasto",
                     action: {
-                        path.removeLast()
+                        if let user = sessionManager.storedUser {
+                            Task {
+                                await addExpenseViewModel.guardarGasto(usuario: user, context: modelContext)
+                                if !addExpenseViewModel.showAlert {
+                                    sessionManager.reloadStoredUser()
+                                    path.removeLast()
+                                }
+                            }
+                        }
                     },
                     backgroundColor: .black,
                     foregroundColor: .white
                 )
             }
             .ignoresSafeArea(.keyboard, edges: .bottom)
+        }
+        .onTapGesture { UIApplication.shared.hideKeyboard()
+        }
+        .alert(isPresented: $addExpenseViewModel.showAlert) {
+            Alert(
+                title: Text("Oops!"),
+                message: Text(addExpenseViewModel.messageAlert)
+            )
         }
     }
 }
