@@ -69,7 +69,7 @@ struct FechaPicker: View {
                         showingSheet = false
                     }
                     .padding(.top, 10)
-                    .foregroundColor(Color(red: 193.0 / 255.0, green: 182.0 / 255.0, blue: 3.0 / 255.0))
+                    .foregroundColor(Color(red: 31/255, green: 122/255, blue: 115/255))
                 }
                 .buttonStyle(PlainButtonStyle())
                 .padding()

@@ -20,6 +20,7 @@ class SessionAPIService {
         return configuration
     }())
     
+    @MainActor
     func registrarUsuario(UserDatos: UserNuevo, context: ModelContext) async -> Int? {
         do {
             // Crear el usuario en Firebase Authentication
@@ -37,7 +38,13 @@ class SessionAPIService {
                 budgetValue: UserDatos.budgetValue
             )
             context.insert(newUser)
-            try? context.save()
+            
+            do {
+                print("StoredUser guardado con éxito.")
+                try context.save()
+            } catch {
+                print("❌ Error al guardar StoredUser:", error.localizedDescription)
+            }
             
             // Mandas el correo de verificación
             try await authResult.user.sendEmailVerification()
