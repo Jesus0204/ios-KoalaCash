@@ -53,7 +53,6 @@ struct AddExpenseView: View {
                             .bold()
 
                         TextField("Ingresa un nombre", text: $addExpenseViewModel.nameValue)
-                            .textInputAutocapitalization(.never)
                             .padding()
                             .cornerRadius(10)
                             .overlay(
