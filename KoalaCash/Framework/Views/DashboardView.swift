@@ -50,7 +50,8 @@ struct DashboardView: View {
                                 value: NSDecimalNumber(decimal: dashboardViewModel.spentUserCurrency).doubleValue,
                                 total: NSDecimalNumber(decimal: dashboardViewModel.budgetUserCurrency).doubleValue
                             )
-                                .progressViewStyle(LinearProgressViewStyle(tint: Color("mintTeal")))
+                            .tint(.mintTeal) 
+                            .frame(height: 6)
                             Text("Próximo depósito en \(dashboardViewModel.daysUntilNextDeposit) días")
                                 .font(.subheadline)
                                 .foregroundStyle(.secondary)
