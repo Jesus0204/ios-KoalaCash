@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import SwiftData
 
 class ExpensesListViewModel: ObservableObject {
     struct ExpenseItem: Identifiable {
@@ -25,6 +26,15 @@ class ExpensesListViewModel: ObservableObject {
     }
 
     @Published var sections: [MonthSection] = []
+    
+    var deleteRequirement: DeleteExpenseRequirementProtocol
+
+    init(deleteRequirement: DeleteExpenseRequirementProtocol = DeleteExpenseRequirement.shared) {
+        self.deleteRequirement = deleteRequirement
+    }
+    
+    @Published var showDeleteAlert = false
+    @Published var deleteID: String? = nil
 
     func update(using user: StoredUser?) {
         guard let user else {
@@ -57,6 +67,14 @@ class ExpensesListViewModel: ObservableObject {
 
         sections = grouped.keys.sorted { formatter.date(from: $0)! > formatter.date(from: $1)! }.map { key in
             MonthSection(month: key, expenses: grouped[key] ?? [])
+        }
+    }
+    
+    @MainActor
+    func eliminarGasto(id: String, user: StoredUser?, context: ModelContext) async {
+        let eliminado = await deleteRequirement.eliminarGasto(expenseID: id, context: context)
+        if eliminado {
+            update(using: user)
         }
     }
 

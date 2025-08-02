@@ -6,40 +6,52 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct ExpensesListView: View {
     @StateObject private var viewModel = ExpensesListViewModel()
     @EnvironmentObject var sessionManager: SessionManager
+    @Environment(\.modelContext) private var modelContext
 
     var body: some View {
         ZStack {
             BackgroundView()
 
-            ScrollView {
-                VStack(alignment: .leading) {
-                    TitleSubtitleView(title: "Historial de gastos", subtitle: "")
-                        .padding(.bottom, 8)
-                    
-                    if viewModel.sections.isEmpty {
-                        Text("No hay gastos registrados aún")
-                            .font(.subheadline)
-                            .foregroundColor(.secondary)
-                    }
+            VStack(alignment: .leading, spacing: 0) {
+                TitleSubtitleView(title: "Historial de gastos", subtitle: "")
+                    .padding([.top, .horizontal])
 
+                if viewModel.sections.isEmpty {
+                    Text("No hay gastos registrados aún")
+                        .font(.subheadline)
+                        .foregroundColor(.secondary)
+                        .padding(.horizontal)
+                }
+
+                List {
                     ForEach(viewModel.sections) { section in
-                        VStack(alignment: .leading, spacing: 8) {
+                        Section(header:
                             Text(section.month)
                                 .font(.title3.bold())
                                 .padding(.top, 8)
+                        ) {
                             ForEach(section.expenses) { expense in
                                 ExpenseDetailRowView(expense: expense)
-                                    .background(Color.white.opacity(0.001))
+                                    .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                                        Button(role: .destructive) {
+                                            viewModel.deleteID = expense.id
+                                            viewModel.showDeleteAlert = true
+                                        } label: {
+                                            Label("Eliminar", systemImage: "trash")
+                                        }
+                                    }
+                                    .listRowBackground(Color.clear)
                             }
                         }
-                        .frame(maxWidth: .infinity, alignment: .leading)
                     }
                 }
-                .padding(.horizontal)
+                .listStyle(.plain)
+                .scrollContentBackground(.hidden)
             }
         }
         .onAppear {
@@ -48,6 +60,19 @@ struct ExpensesListView: View {
         .onChange(of: sessionManager.storedUser) { _, newUser in
             viewModel.update(using: newUser)
         }
+        .alert("¿Eliminar gasto?", isPresented: $viewModel.showDeleteAlert, actions: {
+            Button("Cancelar", role: .cancel) {}
+            Button("Eliminar", role: .destructive) {
+                if let id = viewModel.deleteID {
+                    Task {
+                        await viewModel.eliminarGasto(id: id, user: sessionManager.storedUser, context: modelContext)
+                        sessionManager.reloadStoredUser()
+                    }
+                }
+            }
+        }, message: {
+            Text("Esta acción no se puede deshacer")
+        })
     }
 }
 

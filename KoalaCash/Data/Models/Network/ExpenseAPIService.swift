@@ -58,4 +58,27 @@ class ExpenseAPIService {
             return false
         }
     }
+    
+    @MainActor
+    func eliminarGasto(expenseID: String, context: ModelContext) async -> Bool {
+        guard let uuid = UUID(uuidString: expenseID) else { return false }
+
+        let descriptor = FetchDescriptor<Expense>(predicate: #Predicate { $0.expenseID == uuid })
+        do {
+            if let expense = try context.fetch(descriptor).first {
+                if let quincena = expense.quincena {
+                    quincena.expenses.removeAll { $0.expenseID == expense.expenseID }
+                    quincena.spent -= expense.convertedAmount
+                    if quincena.spent < 0 { quincena.spent = 0 }
+                }
+                context.delete(expense)
+                try context.save()
+                return true
+            }
+            return false
+        } catch {
+            print("Error eliminando gasto: \(error)")
+            return false
+        }
+    }
 }
