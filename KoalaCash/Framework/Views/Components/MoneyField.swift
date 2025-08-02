@@ -72,12 +72,7 @@ struct MoneyField: View {
     }
     
     private var currencySymbol: String {
-        [
-            "USD": "$",
-            "AUD": "A$",
-            "MXN": "$",
-            "EUR": "€"
-        ][currencyCode] ?? currencyCode
+        currencyCode.currencySymbol
     }
     
     private var localizedPlaceholder: String {

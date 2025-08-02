@@ -42,9 +42,9 @@ struct DashboardView: View {
                             HStack {
                                 Text("Gastado")
                                 Spacer()
-                                Text(dashboardViewModel.spentUserCurrency, format: .currency(code: dashboardViewModel.userCurrencyCode))
+                                Text(dashboardViewModel.spentUserCurrencyText)
                                 Text("de")
-                                Text(dashboardViewModel.budgetUserCurrency, format: .currency(code: dashboardViewModel.userCurrencyCode))
+                                Text(dashboardViewModel.budgetUserCurrencyText)
                             }
                             Text("\(dashboardViewModel.remainingPercentage, specifier: "%.0f")% restante")
                                 .foregroundColor(.mintTeal)

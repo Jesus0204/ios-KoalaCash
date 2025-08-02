@@ -15,6 +15,14 @@ class DashboardViewModel: ObservableObject {
     @Published var noExpensesMessage: String? = nil
     @Published var userCurrencyCode: String = "MXN"
     
+    var spentUserCurrencyText: String {
+        format(amount: spentUserCurrency, code: userCurrencyCode)
+    }
+
+    var budgetUserCurrencyText: String {
+        format(amount: budgetUserCurrency, code: userCurrencyCode)
+    }
+    
     var remainingPercentage: Double {
         let budget = NSDecimalNumber(decimal: budgetUserCurrency).doubleValue
         guard budget > 0 else { return 0 }
@@ -103,8 +111,9 @@ class DashboardViewModel: ObservableObject {
         let formatter = NumberFormatter()
         formatter.numberStyle = .currency
         formatter.currencyCode = code
+        formatter.currencySymbol = code.currencySymbol
         formatter.maximumFractionDigits = 2
         let number = NSDecimalNumber(decimal: amount)
-        return formatter.string(from: number) ?? "\(code) \(number)"
+        return formatter.string(from: number) ?? "\(code.currencySymbol)\(number)"
     }
 }

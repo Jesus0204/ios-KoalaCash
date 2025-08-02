@@ -97,8 +97,9 @@ class ExpensesListViewModel: ObservableObject {
         let formatter = NumberFormatter()
         formatter.numberStyle = .currency
         formatter.currencyCode = code
+        formatter.currencySymbol = code.currencySymbol
         formatter.maximumFractionDigits = 2
         let number = NSDecimalNumber(decimal: amount)
-        return formatter.string(from: number) ?? "\(code) \(number)"
+        return formatter.string(from: number) ?? "\(code.currencySymbol)\(number)"
     }
 }
