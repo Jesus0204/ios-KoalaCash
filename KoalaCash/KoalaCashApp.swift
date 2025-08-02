@@ -7,34 +7,45 @@
 
 import SwiftUI
 import SwiftData
+import BackgroundTasks
 import FirebaseCore
 import FirebaseAuth
 
-class AppDelegate: NSObject, UIApplicationDelegate {
-  func application(_ application: UIApplication,
-                   didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
-    FirebaseApp.configure()
+private let sharedContainer: ModelContainer = {
+    try! ModelContainer(
+        for: StoredUser.self,
+             Quincena.self,
+             Expense.self
+    )
+}()
 
-    return true
-  }
+class AppDelegate: NSObject, UIApplicationDelegate {
+    func application(_ application: UIApplication,
+                     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+        FirebaseApp.configure()
+        ExpenseRefreshManager.shared.configure(with: sharedContainer)
+
+        ExpenseRefreshManager.shared.register()
+        ExpenseRefreshManager.shared.schedule()
+        
+        return true
+    }
+    
+    func applicationDidEnterBackground(_ application: UIApplication) {
+        ExpenseRefreshManager.shared.schedule()
+    }
 }
 
 @main
 struct KoalaCashApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     
-    let container: ModelContainer
+    let container: ModelContainer = sharedContainer
     @StateObject var sessionManager: SessionManager
     
     init() {
-        let container = try! ModelContainer(
-            for: StoredUser.self,
-            Quincena.self,
-            Expense.self,
-          )
-        self.container = container
-        
-        _sessionManager = StateObject(wrappedValue: SessionManager(context: container.mainContext))
+        let rootContainer = sharedContainer
+        _sessionManager = StateObject(wrappedValue: SessionManager(context: rootContainer.mainContext))
         let appearance = UINavigationBarAppearance()
 
         appearance.configureWithTransparentBackground()

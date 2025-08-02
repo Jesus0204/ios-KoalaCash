@@ -24,6 +24,19 @@ class ExpenseAPIService {
         return configuration
     }())
     
+    func convert(amount: Decimal, from currency: String, to target: String) async throws -> Decimal {
+        if currency == target {
+            return amount
+        }
+
+        let url = Api.base + "&source=\(currency)&currencies=\(target)"
+        let data = try await session.request(url).serializingData().value
+        let response = try JSONDecoder().decode(ExchangeRateResponse.self, from: data)
+        let rateKey = "\(currency)\(target)"
+        let rate = response.quotes?[rateKey] ?? response.rates?[target] ?? 1.0
+        return amount * Decimal(rate)
+    }
+    
     @MainActor
     func agregarGasto(name: String, currency: String, amount: Decimal, category: String, user: StoredUser, context: ModelContext) async -> Bool {
         let userCurrency = user.currencyValue
