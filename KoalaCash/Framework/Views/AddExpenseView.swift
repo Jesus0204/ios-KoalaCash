@@ -52,7 +52,8 @@ struct AddExpenseView: View {
                             .font(.title3)
                             .bold()
 
-                        TextField("Ingresa un nombre", text: $addExpenseViewModel.nameValue)
+                        NoAccessoryTextField(text: $addExpenseViewModel.nameValue,
+                                             placeholder: "Ingresa un nombre")
                             .padding()
                             .cornerRadius(10)
                             .overlay(
