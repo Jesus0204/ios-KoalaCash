@@ -17,6 +17,7 @@ class ExpensesListViewModel: ObservableObject {
         let date: Date
         let originalAmount: String
         let convertedAmount: String
+        let isFrozen: Bool
     }
 
     struct MonthSection: Identifiable {
@@ -28,13 +29,18 @@ class ExpensesListViewModel: ObservableObject {
     @Published var sections: [MonthSection] = []
     
     var deleteRequirement: DeleteExpenseRequirementProtocol
+    var freezeRequirement: FreezeExpenseRequirementProtocol
 
-    init(deleteRequirement: DeleteExpenseRequirementProtocol = DeleteExpenseRequirement.shared) {
+    init(deleteRequirement: DeleteExpenseRequirementProtocol = DeleteExpenseRequirement.shared,
+         freezeRequirement: FreezeExpenseRequirementProtocol = FreezeExpenseRequirement.shared) {
         self.deleteRequirement = deleteRequirement
+        self.freezeRequirement = freezeRequirement
     }
     
     @Published var showDeleteAlert = false
     @Published var deleteID: String? = nil
+    @Published var showFreezeAlert = false
+    @Published var freezeID: String? = nil
 
     func update(using user: StoredUser?) {
         guard let user else {
@@ -57,7 +63,8 @@ class ExpensesListViewModel: ObservableObject {
                 category: exp.category,
                 date: exp.datePurchase,
                 originalAmount: format(amount: exp.originalAmount, code: exp.originalCurrency),
-                convertedAmount: format(amount: exp.convertedAmount, code: exp.convertedCurrency)
+                convertedAmount: format(amount: exp.convertedAmount, code: exp.convertedCurrency),
+                isFrozen: exp.frozen
             )
         }.sorted { $0.date > $1.date }
 
@@ -74,6 +81,14 @@ class ExpensesListViewModel: ObservableObject {
     func eliminarGasto(id: String, user: StoredUser?, context: ModelContext) async {
         let eliminado = await deleteRequirement.eliminarGasto(expenseID: id, context: context)
         if eliminado {
+            update(using: user)
+        }
+    }
+    
+    @MainActor
+    func congelarGasto(id: String, user: StoredUser?, context: ModelContext) async {
+        let congelado = await freezeRequirement.congelarGasto(expenseID: id, context: context)
+        if congelado {
             update(using: user)
         }
     }

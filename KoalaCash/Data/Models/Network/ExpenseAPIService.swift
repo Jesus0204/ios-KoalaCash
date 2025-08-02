@@ -94,4 +94,22 @@ class ExpenseAPIService {
             return false
         }
     }
+    
+    @MainActor
+    func congelarGasto(expenseID: String, context: ModelContext) async -> Bool {
+        guard let uuid = UUID(uuidString: expenseID) else { return false }
+
+        let descriptor = FetchDescriptor<Expense>(predicate: #Predicate { $0.expenseID == uuid })
+        do {
+            if let expense = try context.fetch(descriptor).first {
+                expense.frozen = true
+                try context.save()
+                return true
+            }
+            return false
+        } catch {
+            print("Error congelando gasto: \(error)")
+            return false
+        }
+    }
 }

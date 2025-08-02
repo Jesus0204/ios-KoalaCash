@@ -11,6 +11,7 @@ import SwiftData
 protocol ExpenseAPIProtocol {
     func agregarGasto(name: String, currency: String, amount: Decimal, category: String, user: StoredUser, context: ModelContext) async -> Bool
     func eliminarGasto(expenseID: String, context: ModelContext) async -> Bool
+    func congelarGasto(expenseID: String, context: ModelContext) async -> Bool
 }
 
 class ExpenseRepository: ExpenseAPIProtocol {
@@ -28,5 +29,9 @@ class ExpenseRepository: ExpenseAPIProtocol {
     
     func eliminarGasto(expenseID: String, context: ModelContext) async -> Bool {
         return await expenseService.eliminarGasto(expenseID: expenseID, context: context)
+    }
+    
+    func congelarGasto(expenseID: String, context: ModelContext) async -> Bool {
+        return await expenseService.congelarGasto(expenseID: expenseID, context: context)
     }
 }
