@@ -42,10 +42,12 @@ struct DashboardView: View {
                             HStack {
                                 Text("Gastado")
                                 Spacer()
-                                Text(dashboardViewModel.spentUserCurrency, format: .currency(code: "MXN"))
+                                Text(dashboardViewModel.spentUserCurrency, format: .currency(code: dashboardViewModel.userCurrencyCode))
                                 Text("de")
-                                Text(dashboardViewModel.budgetUserCurrency, format: .currency(code: "MXN"))
+                                Text(dashboardViewModel.budgetUserCurrency, format: .currency(code: dashboardViewModel.userCurrencyCode))
                             }
+                            Text("\(dashboardViewModel.remainingPercentage, specifier: "%.0f")% restante")
+                                .foregroundColor(.mintTeal)
                             ProgressView(
                                 value: NSDecimalNumber(decimal: dashboardViewModel.spentUserCurrency).doubleValue,
                                 total: NSDecimalNumber(decimal: dashboardViewModel.budgetUserCurrency).doubleValue

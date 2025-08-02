@@ -13,6 +13,15 @@ class DashboardViewModel: ObservableObject {
     @Published var budgetUserCurrency: Decimal = 0
     @Published var daysUntilNextDeposit: Int = 0
     @Published var noExpensesMessage: String? = nil
+    @Published var userCurrencyCode: String = "MXN"
+    
+    var remainingPercentage: Double {
+        let budget = NSDecimalNumber(decimal: budgetUserCurrency).doubleValue
+        guard budget > 0 else { return 0 }
+        let spent = NSDecimalNumber(decimal: spentUserCurrency).doubleValue
+        let remaining = max(0, (1 - spent / budget))
+        return remaining * 100
+    }
 
     struct CategoryData: Identifiable {
         var id: String { name }
@@ -41,8 +50,11 @@ class DashboardViewModel: ObservableObject {
             categoryData = []
             recentExpenses = []
             noExpensesMessage = "No hay gastos para esta quincena."
+            userCurrencyCode = "MXN"
             return
         }
+        
+        userCurrencyCode = user.currencyValue
 
         let calendar = Calendar.current
         daysUntilNextDeposit = calendar.dateComponents([.day], from: Date(), to: user.fortnightDate).day ?? 0
