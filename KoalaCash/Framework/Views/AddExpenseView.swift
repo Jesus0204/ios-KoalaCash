@@ -47,30 +47,45 @@ struct AddExpenseView: View {
                                 allowsNegative: false
                             )
                     
+                    VStack(alignment: .leading) {
+                        Text("Nombre del gasto")
+                            .font(.title3)
+                            .bold()
+
+                        TextField("Ingresa un nombre", text: $addExpenseViewModel.nameValue)
+                            .textInputAutocapitalization(.never)
+                            .padding()
+                            .cornerRadius(10)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 10)
+                                    .stroke(Color.gray.opacity(0.4), lineWidth: 1)
+                            )
+                    }
+                    .padding(.horizontal, 24)
+                    .padding(.bottom, 8)
+                    
                     DropdownField(label: "Categoría del gasto", options: ["Renta", "Supermercado", "Transporte", "Lavandería", "Comidas en restaurante", "Datos móviles", "Entretenimiento", "Cine" ], selectedOption: $addExpenseViewModel.categoryValue, title: true)
+                        .padding(.bottom, 24)
+                    
+                    CustomButton(
+                        text: "Guardar gasto",
+                        action: {
+                            if let user = sessionManager.storedUser {
+                                Task {
+                                    await addExpenseViewModel.guardarGasto(usuario: user, context: modelContext)
+                                    if !addExpenseViewModel.showAlert {
+                                        path.removeLast()
+                                        sessionManager.reloadStoredUser()
+                                    }
+                                }
+                            }
+                        },
+                        backgroundColor: .black,
+                        foregroundColor: .white
+                    )
                 }
             }
             
-            VStack {
-                Spacer()
-                CustomButton(
-                    text: "Guardar gasto",
-                    action: {
-                        if let user = sessionManager.storedUser {
-                            Task {
-                                await addExpenseViewModel.guardarGasto(usuario: user, context: modelContext)
-                                if !addExpenseViewModel.showAlert {
-                                    path.removeLast()
-                                    sessionManager.reloadStoredUser()
-                                }
-                            }
-                        }
-                    },
-                    backgroundColor: .black,
-                    foregroundColor: .white
-                )
-            }
-            .ignoresSafeArea(.keyboard, edges: .bottom)
         }
         .onTapGesture { UIApplication.shared.hideKeyboard()
         }

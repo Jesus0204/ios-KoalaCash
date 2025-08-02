@@ -27,7 +27,11 @@ struct KoalaCashApp: App {
     @StateObject var sessionManager: SessionManager
     
     init() {
-        let container = try! ModelContainer(for: StoredUser.self)
+        let container = try! ModelContainer(
+            for: StoredUser.self,
+            Quincena.self,
+            Expense.self,
+          )
         self.container = container
         
         _sessionManager = StateObject(wrappedValue: SessionManager(context: container.mainContext))

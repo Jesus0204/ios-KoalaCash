@@ -61,9 +61,29 @@ struct DashboardView: View {
                         if !dashboardViewModel.categoryData.isEmpty {
                             CategoryChartView(data: dashboardViewModel.categoryData)
                                 .frame(height: 120)
+                        } else {
+                            Text(dashboardViewModel.noExpensesMessage ?? "No hay gastos para esta quincena.")
+                                .font(.subheadline)
+                                .foregroundStyle(.secondary)
                         }
                         
-                        TitleSubtitleView(title: "Gastos recientes", subtitle: "")
+                        Button(action: {
+                            path.append(.expensesList)
+                        }) {
+                            VStack(alignment: .leading, spacing: 8) {
+                                TitleSubtitleView(title: "Gastos recientes", subtitle: "")
+                                
+                                HStack(spacing: 4) {
+                                    Text("Ver gastos")
+                                        .font(.subheadline)
+                                        .foregroundColor(.mintTeal)
+                                    Image(systemName: "chevron.right")
+                                }
+                            }
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(.horizontal)
+                        }
+                        .buttonStyle(PlainButtonStyle())
                         
                         if let message = dashboardViewModel.noExpensesMessage {
                             Text(message)
@@ -71,11 +91,7 @@ struct DashboardView: View {
                                 .foregroundStyle(.secondary)
                         } else {
                             ForEach(dashboardViewModel.recentExpenses) { expense in
-                                NavigationLink {
-                                } label: {
-                                    ExpenseRowView(expense: expense)
-                                }
-                                .buttonStyle(.plain)
+                                ExpenseRowView(expense: expense)
                             }
                         }
                         
@@ -88,6 +104,8 @@ struct DashboardView: View {
                 switch value {
                 case .addExpense:
                     AddExpenseView(path: $path)
+                case .expensesList:
+                    ExpensesListView()
                 }
             }
         }

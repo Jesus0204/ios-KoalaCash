@@ -24,7 +24,8 @@ class DashboardViewModel: ObservableObject {
 
     struct ExpenseSummary: Identifiable {
         let id: String
-        let title: String
+        let name: String
+        let category: String
         let date: Date
         let originalAmount: String
         let convertedAmount: String
@@ -75,7 +76,8 @@ class DashboardViewModel: ObservableObject {
                 recentExpenses = expenses.prefix(5).map { exp in
                     ExpenseSummary(
                         id: exp.expenseID.uuidString,
-                        title: exp.category,
+                        name: exp.name,
+                        category: exp.category,
                         date: exp.datePurchase,
                         originalAmount: format(amount: exp.originalAmount, code: exp.originalCurrency),
                         convertedAmount: format(amount: exp.convertedAmount, code: exp.convertedCurrency),

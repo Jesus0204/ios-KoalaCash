@@ -13,8 +13,11 @@ struct ExpenseRowView: View {
     var body: some View {
         HStack {
             VStack(alignment: .leading, spacing: 4) {
-                Text(expense.title)
+                Text(expense.name)
                     .font(.headline)
+                Text(expense.category)
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
                 Text(expense.date, format: .dateTime.day().month(.abbreviated))
                     .font(.caption)
                     .foregroundStyle(.secondary)

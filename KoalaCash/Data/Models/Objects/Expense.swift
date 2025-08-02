@@ -11,6 +11,7 @@ import SwiftData
 @Model
 final class Expense {
     @Attribute(.unique) var expenseID: UUID
+    var name: String
     var originalCurrency: String
     var convertedCurrency: String
     var originalAmount: Decimal
@@ -21,8 +22,9 @@ final class Expense {
     
     @Relationship var quincena: Quincena?
 
-    init(originalCurrency: String, convertedCurrency: String, originalAmount: Decimal, convertedAmount: Decimal, datePurchase: Date, category: String, frozen: Bool = false) {
+    init(name: String, originalCurrency: String, convertedCurrency: String, originalAmount: Decimal, convertedAmount: Decimal, datePurchase: Date, category: String, frozen: Bool = false) {
         self.expenseID = UUID()
+        self.name = name
         self.originalCurrency = originalCurrency
         self.convertedCurrency = convertedCurrency
         self.originalAmount = originalAmount

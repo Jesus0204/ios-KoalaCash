@@ -9,4 +9,5 @@ import Foundation
 
 enum DashboardPaths: Hashable {
     case addExpense
+    case expensesList
 }

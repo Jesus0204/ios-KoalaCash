@@ -9,7 +9,7 @@ import Foundation
 import SwiftData
 
 protocol ExpenseAPIProtocol {
-    func agregarGasto(currency: String, amount: Decimal, category: String, user: StoredUser, context: ModelContext) async -> Bool
+    func agregarGasto(name: String, currency: String, amount: Decimal, category: String, user: StoredUser, context: ModelContext) async -> Bool
 }
 
 class ExpenseRepository: ExpenseAPIProtocol {
@@ -21,7 +21,7 @@ class ExpenseRepository: ExpenseAPIProtocol {
         self.expenseService = expenseService
     }
 
-    func agregarGasto(currency: String, amount: Decimal, category: String, user: StoredUser, context: ModelContext) async -> Bool {
-        return await expenseService.agregarGasto(currency: currency, amount: amount, category: category, user: user, context: context)
+    func agregarGasto(name: String, currency: String, amount: Decimal, category: String, user: StoredUser, context: ModelContext) async -> Bool {
+        return await expenseService.agregarGasto(name: name, currency: currency, amount: amount, category: category, user: user, context: context)
     }
 }

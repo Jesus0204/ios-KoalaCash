@@ -25,7 +25,7 @@ class ExpenseAPIService {
     }())
     
     @MainActor
-    func agregarGasto(currency: String, amount: Decimal, category: String, user: StoredUser, context: ModelContext) async -> Bool {
+    func agregarGasto(name: String, currency: String, amount: Decimal, category: String, user: StoredUser, context: ModelContext) async -> Bool {
         let userCurrency = user.currencyValue
         let url = Api.base + "&source=\(currency)&currencies=\(userCurrency)"
         
@@ -42,7 +42,7 @@ class ExpenseAPIService {
                 converted = amount
             }
 
-            let expense = Expense(originalCurrency: currency, convertedCurrency: userCurrency, originalAmount: amount, convertedAmount: converted, datePurchase: Date(), category: category)
+            let expense = Expense(name: name, originalCurrency: currency, convertedCurrency: userCurrency, originalAmount: amount, convertedAmount: converted, datePurchase: Date(), category: category)
 
             if let quincena = user.quincenas.first(where: { $0.active }) {
                 quincena.expenses.append(expense)
