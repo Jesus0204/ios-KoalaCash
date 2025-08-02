@@ -46,7 +46,10 @@ struct DashboardView: View {
                                 Text("de")
                                 Text(dashboardViewModel.budgetUserCurrency, format: .currency(code: "MXN"))
                             }
-                            ProgressView(value: dashboardViewModel.spentRatio)
+                            ProgressView(
+                                value: NSDecimalNumber(decimal: dashboardViewModel.spentUserCurrency).doubleValue,
+                                total: NSDecimalNumber(decimal: dashboardViewModel.budgetUserCurrency).doubleValue
+                            )
                                 .progressViewStyle(LinearProgressViewStyle(tint: Color("mintTeal")))
                             Text("Próximo depósito en \(dashboardViewModel.daysUntilNextDeposit) días")
                                 .font(.subheadline)
@@ -111,8 +114,8 @@ struct DashboardView: View {
         .onAppear {
             dashboardViewModel.update(using: sessionManager.storedUser)
         }
-        .onChange(of: sessionManager.storedUser) { _, newUser in
-            dashboardViewModel.update(using: newUser)
+        .onReceive(sessionManager.$storedUser) { user in
+            dashboardViewModel.update(using: user)
         }
     }
 }

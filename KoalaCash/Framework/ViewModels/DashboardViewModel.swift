@@ -29,16 +29,9 @@ class DashboardViewModel: ObservableObject {
         let date: Date
         let originalAmount: String
         let convertedAmount: String
-        let isPaid: Bool
+        let isFrozen: Bool
     }
     @Published var recentExpenses: [ExpenseSummary] = []
-
-    var spentRatio: Double {
-        guard budgetUserCurrency > 0 else { return 0 }
-        let spent = NSDecimalNumber(decimal: spentUserCurrency).doubleValue
-        let budget = NSDecimalNumber(decimal: budgetUserCurrency).doubleValue
-        return min(1.0, spent / budget)
-    }
 
     func update(using user: StoredUser?) {
         guard let user else {
@@ -81,7 +74,7 @@ class DashboardViewModel: ObservableObject {
                         date: exp.datePurchase,
                         originalAmount: format(amount: exp.originalAmount, code: exp.originalCurrency),
                         convertedAmount: format(amount: exp.convertedAmount, code: exp.convertedCurrency),
-                        isPaid: exp.frozen
+                        isFrozen: exp.frozen
                     )
                 }
             }

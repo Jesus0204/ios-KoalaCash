@@ -68,8 +68,8 @@ struct ExpensesListView: View {
         .onAppear {
             viewModel.update(using: sessionManager.storedUser)
         }
-        .onChange(of: sessionManager.storedUser) { _, newUser in
-            viewModel.update(using: newUser)
+        .onReceive(sessionManager.$storedUser) { user in
+            viewModel.update(using: user)
         }
         .alert("¿Eliminar gasto?", isPresented: $viewModel.showDeleteAlert, actions: {
             Button("Cancelar", role: .cancel) {}

@@ -28,7 +28,12 @@ struct ExpenseRowView: View {
                     .font(.subheadline)
                 Text(expense.convertedAmount)
                     .font(.caption)
-                    .foregroundStyle(expense.isPaid ? .secondary : .primary)
+                    .foregroundStyle(expense.isFrozen ? .secondary : .primary)
+            }
+            if expense.isFrozen {
+                Image(systemName: "snowflake")
+                    .foregroundStyle(.blue)
+                    .padding(.leading, 4)
             }
         }
         .padding(.vertical, 8)
