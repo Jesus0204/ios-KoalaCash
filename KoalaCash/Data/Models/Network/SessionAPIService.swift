@@ -39,6 +39,21 @@ class SessionAPIService {
             )
             context.insert(newUser)
             
+            let calendar = Calendar.current
+            let endDate = UserDatos.fortnightDate
+            let startDate = calendar.date(byAdding: .day, value: -14, to: endDate) ?? endDate
+
+            let initialQuincena = Quincena(
+                fechaInicio: startDate,
+                fechaFin: endDate,
+                budgetAmount: UserDatos.budgetValue,
+                budgetCurrency: UserDatos.currencyValue,
+                spent: 0,
+                active: true
+            )
+            initialQuincena.user = newUser
+            context.insert(initialQuincena)
+            
             do {
                 try context.save()
                 print("StoredUser guardado con éxito.")
@@ -78,7 +93,7 @@ class SessionAPIService {
             let authResult = try await Auth.auth().signIn(withEmail: UserDatos.username, password: UserDatos.password)
             
             // Obtener el ID Token del usuario autenticado
-            let idToken = try await authResult.user.getIDToken()
+            _ = try await authResult.user.getIDToken()
             
             return 200
         } catch {
