@@ -7,7 +7,6 @@
 
 import SwiftUI
 import SwiftData
-import BackgroundTasks
 import FirebaseCore
 import FirebaseAuth
 
@@ -23,16 +22,8 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         FirebaseApp.configure()
-        ExpenseRefreshManager.shared.configure(with: sharedContainer)
-
-        ExpenseRefreshManager.shared.register()
-        ExpenseRefreshManager.shared.schedule()
         
         return true
-    }
-    
-    func applicationDidEnterBackground(_ application: UIApplication) {
-        ExpenseRefreshManager.shared.schedule()
     }
 }
 
@@ -81,6 +72,7 @@ struct KoalaCashApp: App {
             }
             .navigationViewStyle(StackNavigationViewStyle())
             .environment(\.modelContext, container.mainContext)
+            .preferredColorScheme(.light)
         }
     }
 }

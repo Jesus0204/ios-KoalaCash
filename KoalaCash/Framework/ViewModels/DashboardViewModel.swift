@@ -46,8 +46,8 @@ class DashboardViewModel: ObservableObject {
         let date: Date
         let originalAmount: String
         let convertedAmount: String
-        let isFrozen: Bool
-    }
+        let dividedBy: Int
+        let totalOriginalAmount: String    }
     @Published var recentExpenses: [ExpenseSummary] = []
 
     func update(using user: StoredUser?) {
@@ -94,7 +94,8 @@ class DashboardViewModel: ObservableObject {
                         date: exp.datePurchase,
                         originalAmount: format(amount: exp.originalAmount, code: exp.originalCurrency),
                         convertedAmount: format(amount: exp.convertedAmount, code: exp.convertedCurrency),
-                        isFrozen: exp.frozen
+                        dividedBy: exp.dividedBy,
+                        totalOriginalAmount: format(amount: exp.totalOriginalAmount, code: exp.originalCurrency)
                     )
                 }
             }

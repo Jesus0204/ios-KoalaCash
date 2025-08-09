@@ -65,7 +65,19 @@ struct AddExpenseView: View {
                     .padding(.bottom, 8)
                     
                     DropdownField(label: "Categoría del gasto", options: ["Renta", "Supermercado", "Transporte", "Lavandería", "Comidas en restaurante", "Datos móviles", "Entretenimiento", "Cine" ], selectedOption: $addExpenseViewModel.categoryValue, title: true)
+                        .padding(.bottom, 8)
+                    
+                    Toggle("Gasto compartido", isOn: $addExpenseViewModel.isShared)
+                        .padding(.horizontal, 24)
                         .padding(.bottom, 24)
+                    
+                    if addExpenseViewModel.isShared {
+                        Stepper("Número de personas: \(addExpenseViewModel.sharedCount)", value: $addExpenseViewModel.sharedCount, in: 2...10)
+                            .padding(.horizontal, 24)
+                            .padding(.bottom, 24)
+                    } else {
+                        Spacer().frame(height: 24)
+                    }
                     
                     CustomButton(
                         text: "Guardar gasto",

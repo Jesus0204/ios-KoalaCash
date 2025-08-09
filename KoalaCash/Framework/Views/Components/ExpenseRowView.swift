@@ -28,10 +28,15 @@ struct ExpenseRowView: View {
                     .font(.subheadline)
                 Text(expense.convertedAmount)
                     .font(.caption)
-                    .foregroundStyle(expense.isFrozen ? .secondary : .primary)
+                    .foregroundStyle(.secondary)
+                if expense.dividedBy > 1 {
+                    Text("Total: \(expense.totalOriginalAmount)")
+                        .font(.caption2)
+                        .foregroundStyle(.secondary)
+                }
             }
-            if expense.isFrozen {
-                Image(systemName: "snowflake")
+            if expense.dividedBy > 1 {
+                Image(systemName: "person.2.fill")
                     .foregroundStyle(.blue)
                     .padding(.leading, 4)
             }

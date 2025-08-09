@@ -45,17 +45,6 @@ struct ExpensesListView: View {
                                             Label("Eliminar", systemImage: "trash")
                                         }
                                     }
-                                    .swipeActions(edge: .leading, allowsFullSwipe: true) {
-                                        if !expense.isFrozen {
-                                            Button {
-                                                viewModel.freezeID = expense.id
-                                                viewModel.showFreezeAlert = true
-                                            } label: {
-                                                Label("Congelar", systemImage: "snowflake")
-                                            }
-                                            .tint(.blue)
-                                        }
-                                    }
                                     .listRowBackground(Color.clear)
                             }
                         }
@@ -84,19 +73,6 @@ struct ExpensesListView: View {
         }, message: {
             Text("Esta acción no se puede deshacer")
         })
-        .alert("¿Congelar gasto?", isPresented: $viewModel.showFreezeAlert, actions: {
-            Button("Cancelar", role: .cancel) {}
-            Button("Congelar") {
-                if let id = viewModel.freezeID {
-                    Task {
-                        await viewModel.congelarGasto(id: id, user: sessionManager.storedUser, context: modelContext)
-                        sessionManager.reloadStoredUser()
-                    }
-                }
-            }
-        }, message: {
-            Text("El gasto se marcará como congelado")
-        })
     }
 }
 
@@ -114,6 +90,11 @@ struct ExpenseDetailRowView: View {
                 Text(expense.date, format: .dateTime.day().month(.abbreviated))
                     .font(.caption)
                     .foregroundStyle(.secondary)
+                if expense.dividedBy > 1 {
+                    Text("Total: \(expense.totalOriginalAmount)")
+                        .font(.caption2)
+                        .foregroundStyle(.secondary)
+                }
             }
             Spacer()
             VStack(alignment: .trailing) {
@@ -123,8 +104,8 @@ struct ExpenseDetailRowView: View {
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }
-            if expense.isFrozen {
-                Image(systemName: "snowflake")
+            if expense.dividedBy > 1 {
+                Image(systemName: "person.2.fill")
                     .foregroundStyle(.blue)
                     .padding(.leading, 4)
             }

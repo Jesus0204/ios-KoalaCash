@@ -38,11 +38,11 @@ class ExpenseAPIService {
     }
     
     @MainActor
-    func agregarGasto(name: String, currency: String, amount: Decimal, category: String, user: StoredUser, context: ModelContext) async -> Bool {
+    func agregarGasto(name: String, currency: String, amount: Decimal, category: String, dividedBy: Int, user: StoredUser, context: ModelContext) async -> Bool {
         let userCurrency = user.currencyValue
         let url = Api.base + "&source=\(currency)&currencies=\(userCurrency)"
         
-        let converted : Decimal
+        let convertedTotal: Decimal
         do {
             if currency != userCurrency {
                 let data = try await session.request(url).serializingData().value
@@ -50,17 +50,29 @@ class ExpenseAPIService {
 
                 let rateKey = "\(currency)\(userCurrency)"
                 let rate = response.quotes?[rateKey] ?? response.rates?[userCurrency] ?? 1.0
-                converted = amount * Decimal(rate)
+                convertedTotal = amount * Decimal(rate)
             } else {
-                converted = amount
+                convertedTotal = amount
             }
+            
+            let perPersonOriginal = amount / Decimal(dividedBy)
+            let perPersonConverted = convertedTotal / Decimal(dividedBy)
 
-            let expense = Expense(name: name, originalCurrency: currency, convertedCurrency: userCurrency, originalAmount: amount, convertedAmount: converted, datePurchase: Date(), category: category)
+            let expense = Expense(name: name,
+                                  originalCurrency: currency,
+                                  convertedCurrency: userCurrency,
+                                  originalAmount: perPersonOriginal,
+                                  convertedAmount: perPersonConverted,
+                                  totalOriginalAmount: amount,
+                                  totalConvertedAmount: convertedTotal,
+                                  datePurchase: Date(),
+                                  category: category,
+                                  dividedBy: dividedBy)
 
             if let quincena = user.quincenas.first(where: { $0.active }) {
                 quincena.expenses.append(expense)
                 expense.quincena = quincena
-                quincena.spent += converted
+                quincena.spent += perPersonConverted
             }
 
             context.insert(expense)
@@ -91,24 +103,6 @@ class ExpenseAPIService {
             return false
         } catch {
             print("Error eliminando gasto: \(error)")
-            return false
-        }
-    }
-    
-    @MainActor
-    func congelarGasto(expenseID: String, context: ModelContext) async -> Bool {
-        guard let uuid = UUID(uuidString: expenseID) else { return false }
-
-        let descriptor = FetchDescriptor<Expense>(predicate: #Predicate { $0.expenseID == uuid })
-        do {
-            if let expense = try context.fetch(descriptor).first {
-                expense.frozen = true
-                try context.save()
-                return true
-            }
-            return false
-        } catch {
-            print("Error congelando gasto: \(error)")
             return false
         }
     }

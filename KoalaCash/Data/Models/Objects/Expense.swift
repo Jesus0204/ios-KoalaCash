@@ -16,21 +16,25 @@ final class Expense {
     var convertedCurrency: String
     var originalAmount: Decimal
     var convertedAmount: Decimal
+    var totalOriginalAmount: Decimal
+    var totalConvertedAmount: Decimal
+    var dividedBy: Int
     var datePurchase: Date
     var category: String
-    var frozen: Bool = false
     
     @Relationship var quincena: Quincena?
 
-    init(name: String, originalCurrency: String, convertedCurrency: String, originalAmount: Decimal, convertedAmount: Decimal, datePurchase: Date, category: String, frozen: Bool = false) {
+    init(name: String, originalCurrency: String, convertedCurrency: String, originalAmount: Decimal, convertedAmount: Decimal, totalOriginalAmount: Decimal, totalConvertedAmount: Decimal, datePurchase: Date, category: String, dividedBy: Int = 1) {
         self.expenseID = UUID()
         self.name = name
         self.originalCurrency = originalCurrency
         self.convertedCurrency = convertedCurrency
         self.originalAmount = originalAmount
         self.convertedAmount = convertedAmount
+        self.totalOriginalAmount = totalOriginalAmount
+        self.totalConvertedAmount = totalConvertedAmount
+        self.dividedBy = dividedBy
         self.datePurchase = datePurchase
         self.category = category
-        self.frozen = frozen
     }
 }
