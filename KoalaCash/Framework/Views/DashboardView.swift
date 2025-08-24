@@ -46,13 +46,17 @@ struct DashboardView: View {
                                 Text("de")
                                 Text(dashboardViewModel.budgetUserCurrencyText)
                             }
-                            Text("\(dashboardViewModel.remainingPercentage, specifier: "%.0f")% restante")
-                                .foregroundColor(.mintTeal)
-                            ProgressView(
-                                value: NSDecimalNumber(decimal: dashboardViewModel.spentUserCurrency).doubleValue,
-                                total: NSDecimalNumber(decimal: dashboardViewModel.budgetUserCurrency).doubleValue
+                            Text(
+                                dashboardViewModel.isOverBudget
+                                ? "\(abs(dashboardViewModel.remainingPercentage), specifier: "%.0f")% excedido"
+                                : "\(dashboardViewModel.remainingPercentage, specifier: "%.0f")% restante"
                             )
-                            .tint(.mintTeal) 
+                                .foregroundColor(dashboardViewModel.isOverBudget ? .red : .mintTeal)
+                            ProgressView(
+                                value: dashboardViewModel.progressValue,
+                                total: dashboardViewModel.progressTotal
+                            )
+                            .tint(dashboardViewModel.isOverBudget ? .red : .mintTeal)
                             .frame(height: 6)
                             Text("Próximo depósito en \(dashboardViewModel.daysUntilNextDeposit) días")
                                 .font(.subheadline)

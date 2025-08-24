@@ -64,7 +64,7 @@ struct AddExpenseView: View {
                     .padding(.horizontal, 24)
                     .padding(.bottom, 8)
                     
-                    DropdownField(label: "Categoría del gasto", options: ["Renta", "Supermercado", "Transporte", "Lavandería", "Comidas en restaurante", "Datos móviles", "Entretenimiento", "Cine" ], selectedOption: $addExpenseViewModel.categoryValue, title: true)
+                    DropdownField(label: "Categoría del gasto", options: ["Renta", "Supermercado", "Transporte", "Lavandería", "Comida fuera", "Datos móviles", "Entretenimiento", "Cine", "Compras" ], selectedOption: $addExpenseViewModel.categoryValue, title: true)
                         .padding(.bottom, 8)
                     
                     Toggle("Gasto compartido", isOn: $addExpenseViewModel.isShared)

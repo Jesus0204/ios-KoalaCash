@@ -27,8 +27,25 @@ class DashboardViewModel: ObservableObject {
         let budget = NSDecimalNumber(decimal: budgetUserCurrency).doubleValue
         guard budget > 0 else { return 0 }
         let spent = NSDecimalNumber(decimal: spentUserCurrency).doubleValue
-        let remaining = max(0, (1 - spent / budget))
-        return remaining * 100
+        return (1 - spent / budget) * 100
+    }
+    
+    var isOverBudget: Bool {
+        NSDecimalNumber(decimal: spentUserCurrency).doubleValue > NSDecimalNumber(decimal: budgetUserCurrency).doubleValue
+    }
+    
+    var progressTotal: Double {
+        NSDecimalNumber(decimal: budgetUserCurrency).doubleValue
+    }
+    
+    var progressValue: Double {
+        let spent = NSDecimalNumber(decimal: spentUserCurrency).doubleValue
+        let budget = NSDecimalNumber(decimal: budgetUserCurrency).doubleValue
+        if spent > budget {
+            return min(spent - budget, budget)
+        } else {
+            return spent
+        }
     }
 
     struct CategoryData: Identifiable {
@@ -80,6 +97,7 @@ class DashboardViewModel: ObservableObject {
                 noExpensesMessage = nil
                 var totals: [String: Decimal] = [:]
                 for exp in expenses {
+                    if exp.category == "Renta" { continue }
                     totals[exp.category, default: 0] += exp.convertedAmount
                 }
                 categoryData = totals.map {
