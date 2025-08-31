@@ -20,11 +20,24 @@ struct AdjustBudgetView: View {
             BackgroundView()
 
             ScrollView {
+                Spacer()
+                Spacer()
+                
                 VStack {
                     TitleSubtitleView(
                         title: "Ajustar presupuesto",
-                        subtitle: "Este cambio solo aplica a la quincena actual"
+                        subtitle: "Este cambio solo aplica a la quincena actual. Para modificar el presupuesto de futuras quincenas, debes hacerlo desde Ajustes."
                     )
+                    
+                    HStack {
+                        Spacer()
+                        Image("addExpenseKoala")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(height: 180)
+                            .accessibilityHidden(true)
+                        Spacer()
+                    }
 
                     MoneyField(
                         label: "Nuevo presupuesto",
