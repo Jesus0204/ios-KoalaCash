@@ -24,32 +24,48 @@ struct BudgetProgressBar: View {
             let budgetDouble = NSDecimalNumber(decimal: budget).doubleValue
             let originalDouble = NSDecimalNumber(decimal: originalBudget ?? budget).doubleValue
 
-            let lowerBudget = min(budgetDouble, originalDouble)
             let total = max(spentDouble, budgetDouble, originalDouble, 1)
+            
+            let isIncrease = budgetDouble > originalDouble
 
-            let mintWidth = min(spentDouble, lowerBudget) / total * geometry.size.width
-            let adjustmentWidth = budgetDouble > originalDouble
-                ? max(min(spentDouble, budgetDouble) - originalDouble, 0) / total * geometry.size.width
-                : 0
+            let lightOrangeWidth = isIncrease ? (budgetDouble - originalDouble) / total * geometry.size.width : 0
+            let lightOrangeOffset = isIncrease ? originalDouble / total * geometry.size.width : 0
+
+            let baseMint = isIncrease ? originalDouble : budgetDouble
+            let mintWidth = min(spentDouble, baseMint) / total * geometry.size.width
+
+            let darkOrangeWidth = isIncrease ? max(0, min(spentDouble, budgetDouble) - originalDouble) / total * geometry.size.width : 0
             let redWidth = max(spentDouble - budgetDouble, 0) / total * geometry.size.width
+            
+            let redOffset = budgetDouble / total * geometry.size.width
 
             ZStack(alignment: .leading) {
                 RoundedRectangle(cornerRadius: 3)
                     .fill(Color.gray.opacity(0.3))
+                
+                if lightOrangeWidth > 0 {
+                    RoundedRectangle(cornerRadius: 3)
+                        .fill(Color.orange.opacity(0.3))
+                        .frame(width: lightOrangeWidth)
+                        .offset(x: lightOrangeOffset)
+                }
+                
                 RoundedRectangle(cornerRadius: 3)
                     .fill(Color.mintTeal)
                     .frame(width: mintWidth)
-                if adjustmentWidth > 0 {
+                
+                if darkOrangeWidth > 0 {
                     RoundedRectangle(cornerRadius: 3)
                         .fill(Color.orange)
-                        .frame(width: adjustmentWidth)
-                        .offset(x: mintWidth)
+                        .frame(width: darkOrangeWidth)
+                        .offset(x: lightOrangeOffset)
                 }
+                
                 if redWidth > 0 {
                     RoundedRectangle(cornerRadius: 3)
                         .fill(Color.red)
                         .frame(width: redWidth)
-                        .offset(x: mintWidth + adjustmentWidth)
+                        .offset(x: redOffset)
                 }
             }
         }
@@ -58,7 +74,10 @@ struct BudgetProgressBar: View {
 }
 
 #Preview {
-    BudgetProgressBar(spent: 1500, budget: 1000, originalBudget: 800)
-        .frame(width: 200)
-        .padding()
+    VStack(spacing: 12) {
+        BudgetProgressBar(spent: 2500, budget: 5000, originalBudget: 2000)
+        BudgetProgressBar(spent: 2500, budget: 2000, originalBudget: 5000)
+    }
+    .frame(width: 200)
+    .padding()
 }
