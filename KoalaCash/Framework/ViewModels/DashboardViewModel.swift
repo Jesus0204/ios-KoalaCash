@@ -11,6 +11,7 @@ import SwiftUI
 class DashboardViewModel: ObservableObject {
     @Published var spentUserCurrency: Decimal = 0
     @Published var budgetUserCurrency: Decimal = 0
+    @Published var originalBudgetUserCurrency: Decimal = 0
     @Published var daysUntilNextDeposit: Int = 0
     @Published var noExpensesMessage: String? = nil
     @Published var userCurrencyCode: String = "MXN"
@@ -80,6 +81,7 @@ class DashboardViewModel: ObservableObject {
         }
         
         userCurrencyCode = user.currencyValue
+        originalBudgetUserCurrency = user.budgetValue
 
         let calendar = Calendar.current
         daysUntilNextDeposit = calendar.dateComponents([.day], from: Date(), to: user.fortnightDate).day ?? 0

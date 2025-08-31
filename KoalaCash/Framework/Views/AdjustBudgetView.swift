@@ -31,7 +31,7 @@ struct AdjustBudgetView: View {
                     
                     HStack {
                         Spacer()
-                        Image("addExpenseKoala")
+                        Image("KoalaCash_AdjustBudget")
                             .resizable()
                             .scaledToFit()
                             .frame(height: 180)

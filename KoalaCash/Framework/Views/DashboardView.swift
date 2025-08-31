@@ -60,7 +60,8 @@ struct DashboardView: View {
                                 .foregroundColor(dashboardViewModel.isOverBudget ? .red : .mintTeal)
                             BudgetProgressBar(
                                 spent: dashboardViewModel.spentUserCurrency,
-                                budget: dashboardViewModel.budgetUserCurrency
+                                budget: dashboardViewModel.budgetUserCurrency,
+                                originalBudget: dashboardViewModel.originalBudgetUserCurrency
                             )
                             .frame(height: 6)
                             Text("Próximo depósito en \(dashboardViewModel.daysUntilNextDeposit) días")
