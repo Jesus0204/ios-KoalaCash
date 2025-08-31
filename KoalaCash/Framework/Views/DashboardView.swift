@@ -13,6 +13,7 @@ struct DashboardView: View {
     @StateObject private var dashboardViewModel = DashboardViewModel()
     
     @State private var path: [DashboardPaths] = []
+    @State private var showAdjustBudget = false
     
     var body: some View {
         NavigationStack(path: $path) {
@@ -39,24 +40,28 @@ struct DashboardView: View {
                         }
                         
                         VStack(alignment: .leading, spacing: 8) {
-                            HStack {
-                                Text("Gastado")
-                                Spacer()
-                                Text(dashboardViewModel.spentUserCurrencyText)
-                                Text("de")
-                                Text(dashboardViewModel.budgetUserCurrencyText)
+                            Button(action: {
+                                showAdjustBudget = true
+                            }) {
+                                HStack {
+                                    Text("Gastado")
+                                    Spacer()
+                                    Text(dashboardViewModel.spentUserCurrencyText)
+                                    Text("de")
+                                    Text(dashboardViewModel.budgetUserCurrencyText)
+                                }
                             }
+                            .buttonStyle(PlainButtonStyle())
                             Text(
                                 dashboardViewModel.isOverBudget
                                 ? "\(abs(dashboardViewModel.remainingPercentage), specifier: "%.0f")% excedido"
                                 : "\(dashboardViewModel.remainingPercentage, specifier: "%.0f")% restante"
                             )
                                 .foregroundColor(dashboardViewModel.isOverBudget ? .red : .mintTeal)
-                            ProgressView(
-                                value: dashboardViewModel.progressValue,
-                                total: dashboardViewModel.progressTotal
+                            BudgetProgressBar(
+                                spent: dashboardViewModel.spentUserCurrency,
+                                budget: dashboardViewModel.budgetUserCurrency
                             )
-                            .tint(dashboardViewModel.isOverBudget ? .red : .mintTeal)
                             .frame(height: 6)
                             Text("Próximo depósito en \(dashboardViewModel.daysUntilNextDeposit) días")
                                 .font(.subheadline)
@@ -123,6 +128,10 @@ struct DashboardView: View {
         }
         .onReceive(sessionManager.$storedUser) { user in
             dashboardViewModel.update(using: user)
+        }
+        .sheet(isPresented: $showAdjustBudget) {
+            AdjustBudgetView()
+                .environmentObject(sessionManager)
         }
     }
 }
