@@ -15,6 +15,7 @@ class AddExpenseViewModel: ObservableObject {
     @Published var budgetValue: Decimal? = nil
     @Published var isShared: Bool = false
     @Published var sharedCount: Int = 2
+    @Published var excludeFromBudget: Bool = false
 
     @Published var messageAlert = ""
     @Published var showAlert = false
@@ -40,13 +41,14 @@ class AddExpenseViewModel: ObservableObject {
         }
 
         let dividedBy = isShared ? sharedCount : 1
-        let guardado = await addExpenseRequirement.agregarGasto(name: nameValue, currency: currencyValue, amount: amount, category: categoryValue, dividedBy: dividedBy, user: usuario, context: context)
+        let guardado = await addExpenseRequirement.agregarGasto(name: nameValue, currency: currencyValue, amount: amount, category: categoryValue, dividedBy: dividedBy, excludedFromBudget: excludeFromBudget, user: usuario, context: context)
 
         if guardado {
             budgetValue = nil
             nameValue = ""
             isShared = false
             sharedCount = 2
+            excludeFromBudget = false
         } else {
             messageAlert = "Hubo un error al guardar el gasto. Favor de intentarlo de nuevo."
             showAlert = true

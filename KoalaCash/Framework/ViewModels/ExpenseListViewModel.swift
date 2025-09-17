@@ -19,6 +19,7 @@ class ExpensesListViewModel: ObservableObject {
         let convertedAmount: String
         let dividedBy: Int
         let totalOriginalAmount: String
+        let excludedFromBudget: Bool
     }
 
     struct MonthSection: Identifiable {
@@ -30,9 +31,12 @@ class ExpensesListViewModel: ObservableObject {
     @Published var sections: [MonthSection] = []
     
     var deleteRequirement: DeleteExpenseRequirementProtocol
+    private let exclusionStore: ExpenseExclusionStore
 
-    init(deleteRequirement: DeleteExpenseRequirementProtocol = DeleteExpenseRequirement.shared) {
+    init(deleteRequirement: DeleteExpenseRequirementProtocol = DeleteExpenseRequirement.shared,
+             exclusionStore: ExpenseExclusionStore = .shared) {
         self.deleteRequirement = deleteRequirement
+        self.exclusionStore = exclusionStore
     }
     
     @Published var showDeleteAlert = false
@@ -53,7 +57,8 @@ class ExpensesListViewModel: ObservableObject {
         formatter.dateFormat = "LLLL yyyy"
 
         let items = allExpenses.map { exp in
-            ExpenseItem(
+            let isExcluded = exclusionStore.isExcluded(exp.expenseID)
+            return ExpenseItem(
                 id: exp.expenseID.uuidString,
                 name: exp.name,
                 category: exp.category,
@@ -61,9 +66,10 @@ class ExpensesListViewModel: ObservableObject {
                 originalAmount: format(amount: exp.originalAmount, code: exp.originalCurrency),
                 convertedAmount: format(amount: exp.convertedAmount, code: exp.convertedCurrency),
                 dividedBy: exp.dividedBy,
-                totalOriginalAmount: format(amount: exp.totalOriginalAmount, code: exp.originalCurrency)
+                totalOriginalAmount: format(amount: exp.totalOriginalAmount, code: exp.originalCurrency),
+                excludedFromBudget: isExcluded
             )
-        }.sorted { $0.date > $1.date }
+        }.sorted(by: { $0.date > $1.date })
 
         let grouped = Dictionary(grouping: items) { item in
             formatter.string(from: item.date)

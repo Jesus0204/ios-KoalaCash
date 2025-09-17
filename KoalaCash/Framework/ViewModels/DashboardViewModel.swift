@@ -16,6 +16,12 @@ class DashboardViewModel: ObservableObject {
     @Published var noExpensesMessage: String? = nil
     @Published var userCurrencyCode: String = "MXN"
     
+    private let exclusionStore: ExpenseExclusionStore
+
+    init(exclusionStore: ExpenseExclusionStore = .shared) {
+        self.exclusionStore = exclusionStore
+    }
+    
     var spentUserCurrencyText: String {
         format(amount: spentUserCurrency, code: userCurrencyCode)
     }
@@ -65,7 +71,9 @@ class DashboardViewModel: ObservableObject {
         let originalAmount: String
         let convertedAmount: String
         let dividedBy: Int
-        let totalOriginalAmount: String    }
+        let totalOriginalAmount: String
+        let excludedFromBudget: Bool
+    }
     @Published var recentExpenses: [ExpenseSummary] = []
 
     func update(using user: StoredUser?) {
@@ -100,6 +108,7 @@ class DashboardViewModel: ObservableObject {
                 var totals: [String: Decimal] = [:]
                 for exp in expenses {
                     if exp.category == "Renta" { continue }
+                    if exclusionStore.isExcluded(exp.expenseID) { continue }
                     totals[exp.category, default: 0] += exp.convertedAmount
                 }
                 categoryData = totals.map {
@@ -107,7 +116,8 @@ class DashboardViewModel: ObservableObject {
                 }
 
                 recentExpenses = expenses.prefix(5).map { exp in
-                    ExpenseSummary(
+                    let isExcluded = exclusionStore.isExcluded(exp.expenseID)
+                    return ExpenseSummary(
                         id: exp.expenseID.uuidString,
                         name: exp.name,
                         category: exp.category,
@@ -115,7 +125,8 @@ class DashboardViewModel: ObservableObject {
                         originalAmount: format(amount: exp.originalAmount, code: exp.originalCurrency),
                         convertedAmount: format(amount: exp.convertedAmount, code: exp.convertedCurrency),
                         dividedBy: exp.dividedBy,
-                        totalOriginalAmount: format(amount: exp.totalOriginalAmount, code: exp.originalCurrency)
+                        totalOriginalAmount: format(amount: exp.totalOriginalAmount, code: exp.originalCurrency),
+                        excludedFromBudget: isExcluded
                     )
                 }
             }

@@ -69,15 +69,18 @@ struct AddExpenseView: View {
                     
                     Toggle("Gasto compartido", isOn: $addExpenseViewModel.isShared)
                         .padding(.horizontal, 24)
-                        .padding(.bottom, 24)
+                        .padding(.bottom, 8)
                     
                     if addExpenseViewModel.isShared {
                         Stepper("Número de personas: \(addExpenseViewModel.sharedCount)", value: $addExpenseViewModel.sharedCount, in: 2...10)
                             .padding(.horizontal, 24)
                             .padding(.bottom, 24)
-                    } else {
-                        Spacer().frame(height: 24)
+                            .padding(.top, 16)
                     }
+                    
+                    Toggle("Gasto excluido", isOn: $addExpenseViewModel.excludeFromBudget)
+                        .padding(.horizontal, 24)
+                        .padding(.bottom, 24)
                     
                     CustomButton(
                         text: "Guardar gasto",

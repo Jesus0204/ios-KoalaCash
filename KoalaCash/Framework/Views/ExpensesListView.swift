@@ -95,6 +95,11 @@ struct ExpenseDetailRowView: View {
                         .font(.caption2)
                         .foregroundStyle(.secondary)
                 }
+                if expense.excludedFromBudget {
+                    BudgetBadge(style: .compact)
+                        .transition(.scale.combined(with: .opacity))
+                        .animation(.snappy(duration: 0.2), value: expense.excludedFromBudget)
+                }
             }
             Spacer()
             VStack(alignment: .trailing) {

@@ -21,6 +21,11 @@ struct ExpenseRowView: View {
                 Text(expense.date, format: .dateTime.day().month(.abbreviated))
                     .font(.caption)
                     .foregroundStyle(.secondary)
+                if expense.excludedFromBudget {
+                    BudgetBadge()
+                        .transition(.scale.combined(with: .opacity))
+                        .animation(.snappy(duration: 0.2), value: expense.excludedFromBudget)
+                }
             }
             Spacer()
             VStack(alignment: .trailing) {
