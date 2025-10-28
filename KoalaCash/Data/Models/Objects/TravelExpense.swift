@@ -24,6 +24,7 @@ final class TravelExpense {
     var dividedBy: Int
     var datePurchase: Date
     var category: String
+    var budgetExpenseID: UUID?
 
     @Relationship var trip: Trip?
 
@@ -54,5 +55,6 @@ final class TravelExpense {
         self.dividedBy = dividedBy
         self.datePurchase = datePurchase
         self.category = category
+        self.budgetExpenseID = nil
     }
 }

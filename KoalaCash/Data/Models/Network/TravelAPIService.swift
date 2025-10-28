@@ -121,7 +121,6 @@ class TravelAPIService {
 
             context.insert(expense)
             createdExpense = expense
-            try context.save()
             
             if includeInBudget {
                 guard let user = trip.user else {
@@ -133,16 +132,18 @@ class TravelAPIService {
                     return false
                 }
 
-                let savedToBudget = await ExpenseAPIService.shared.agregarGasto(name: name,
-                                                                                currency: currency,
-                                                                                amount: amount,
-                                                                                category: category,
-                                                                                dividedBy: dividedBy,
-                                                                                excludedFromBudget: false,
-                                                                                user: user,
-                                                                                context: context)
+                let savedToBudgetID = await ExpenseAPIService.shared.agregarGasto(name: name,
+                                                                                  currency: currency,
+                                                                                  amount: amount,
+                                                                                  category: category,
+                                                                                  dividedBy: dividedBy,
+                                                                                  excludedFromBudget: false,
+                                                                                  user: user,
+                                                                                  context: context)
 
-                if !savedToBudget {
+                if let budgetExpenseID = savedToBudgetID {
+                    expense.budgetExpenseID = budgetExpenseID
+                } else {
                     undoExpenseInsertion(expense,
                                          trip: trip,
                                          context: context,
@@ -151,10 +152,14 @@ class TravelAPIService {
                     return false
                 }
             }
+            try context.save()
             return true
         } catch {
             print("Error agregando gasto de viaje: \(error)")
             if let expense = createdExpense {
+                if let budgetExpenseID = expense.budgetExpenseID {
+                    _ = await ExpenseAPIService.shared.eliminarGasto(expenseID: budgetExpenseID.uuidString, context: context)
+                }
                 undoExpenseInsertion(expense,
                                      trip: trip,
                                      context: context,
@@ -196,7 +201,10 @@ class TravelAPIService {
                     trip.totalConvertedAmount -= expense.totalConvertedAmount
                     if trip.totalConvertedAmount < 0 { trip.totalConvertedAmount = 0 }
                     trip.totalUserConvertedAmount -= expense.totalUserConvertedAmount
-                     if trip.totalUserConvertedAmount < 0 { trip.totalUserConvertedAmount = 0 }
+                    if trip.totalUserConvertedAmount < 0 { trip.totalUserConvertedAmount = 0 }
+                  }
+                  if let budgetExpenseID = expense.budgetExpenseID {
+                      _ = await ExpenseAPIService.shared.eliminarGasto(expenseID: budgetExpenseID.uuidString, context: context)
                 }
                 context.delete(expense)
                 try context.save()
@@ -208,3 +216,4 @@ class TravelAPIService {
         return false
     }
 }
+

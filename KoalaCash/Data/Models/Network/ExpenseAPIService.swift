@@ -40,7 +40,14 @@ class ExpenseAPIService {
     }
     
     @MainActor
-    func agregarGasto(name: String, currency: String, amount: Decimal, category: String, dividedBy: Int, excludedFromBudget: Bool, user: StoredUser, context: ModelContext) async -> Bool {
+    func agregarGasto(name: String,
+                          currency: String,
+                          amount: Decimal,
+                          category: String,
+                          dividedBy: Int,
+                          excludedFromBudget: Bool,
+                          user: StoredUser,
+                          context: ModelContext) async -> UUID? {
         let userCurrency = user.currencyValue
         let url = Api.base + "&source=\(currency)&currencies=\(userCurrency)"
         
@@ -85,13 +92,13 @@ class ExpenseAPIService {
 
             context.insert(expense)
             try context.save()
-            return true
+            return expense.expenseID
         } catch {
             print("Error agregando gasto: \(error)")
             if let expense = createdExpense {
                 exclusionStore.remove(expense.expenseID)
             }
-            return false
+            return nil
         }
     }
     

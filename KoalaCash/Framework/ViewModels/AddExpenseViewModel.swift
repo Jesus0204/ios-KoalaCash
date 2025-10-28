@@ -41,9 +41,9 @@ class AddExpenseViewModel: ObservableObject {
         }
 
         let dividedBy = isShared ? sharedCount : 1
-        let guardado = await addExpenseRequirement.agregarGasto(name: nameValue, currency: currencyValue, amount: amount, category: categoryValue, dividedBy: dividedBy, excludedFromBudget: excludeFromBudget, user: usuario, context: context)
+        let createdExpenseID = await addExpenseRequirement.agregarGasto(name: nameValue, currency: currencyValue, amount: amount, category: categoryValue, dividedBy: dividedBy, excludedFromBudget: excludeFromBudget, user: usuario, context: context)
 
-        if guardado {
+        if createdExpenseID != nil {
             budgetValue = nil
             nameValue = ""
             isShared = false
