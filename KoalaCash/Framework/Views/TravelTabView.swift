@@ -48,9 +48,14 @@ struct TravelTabView: View {
                         }
 
                         if let active = viewModel.activeTrip {
-                            ActiveTripCard(summary: active) {
-                                path.append(.tripDetail(active.id))
-                            }
+                            ActiveTripCard(summary: active,
+                                           onTap: {
+                                               path.append(.tripDetail(active.id))
+                                           },
+                                           onDelete: {
+                                               viewModel.pendingDeleteID = active.id
+                                               viewModel.showDeleteAlert = true
+                                           })
                             .padding(.horizontal)
                         }
 
@@ -132,53 +137,113 @@ struct TravelTabView: View {
 private struct ActiveTripCard: View {
     let summary: TravelTabViewModel.ActiveTripSummary
     var onTap: () -> Void
+    var onDelete: () -> Void
 
     var body: some View {
-        Button(action: onTap) {
-            VStack(alignment: .leading, spacing: 12) {
-                HStack(alignment: .top) {
-                    VStack(alignment: .leading, spacing: 4) {
-                        Text(summary.title)
-                            .font(.title2.bold())
-                    }
-                    Spacer()
-                    Label("Activo", systemImage: "airplane.circle.fill")
-                        .font(.caption)
-                        .padding(.horizontal, 8)
-                        .padding(.vertical, 4)
-                        .background(Color.mintTeal.opacity(0.2))
-                        .foregroundColor(.mintTeal)
-                        .clipShape(Capsule())
-                }
+        VStack(alignment: .leading, spacing: 10) {
+            HStack(alignment: .firstTextBaseline, spacing: 8) {
+                Text(summary.title)
+                    .font(.title3.bold())
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.85)
 
+                Label("Activo", systemImage: "airplane.circle.fill")
+                    .font(.caption)
+                    .padding(.horizontal, 8)
+                    .padding(.vertical, 4)
+                    .background(Color.mintTeal.opacity(0.2))
+                    .foregroundColor(.mintTeal)
+                    .clipShape(Capsule())
+                    .lineLimit(1)
+                    .fixedSize()
+
+                Spacer()
+
+                Menu {
+                    Button(role: .destructive, action: onDelete) {
+                        Label("Eliminar viaje", systemImage: "trash")
+                    }
+                } label: {
+                    Image(systemName: "ellipsis.circle")
+                        .imageScale(.large)
+                        .padding(4)
+                        .contentShape(Rectangle())
+                }
+                .foregroundStyle(.secondary)
+                .accessibilityLabel("Más opciones del viaje")
+            }
+
+            if !summary.dateRange.isEmpty {
                 Text(summary.dateRange)
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
-
-                VStack(alignment: .leading, spacing: 6) {
-                    Text("Total en \(summary.baseCurrencyCode)")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                    Text(summary.baseAmount)
-                        .font(.title3)
-
-                    if summary.showsUserAmount,
-                       let userAmount = summary.userAmount,
-                       let userCurrency = summary.userCurrencyCode {
-                        Text("Total en \(userCurrency)")
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
-                        Text(userAmount)
-                            .font(.headline)
-                    }
-                }
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.85)
             }
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .padding()
-            .background(.thinMaterial)
-            .cornerRadius(12)
+
+            MetricRow(
+                baseLabel: "Total en \(summary.baseCurrencyCode)",
+                baseAmount: summary.baseAmount,
+                showConverted: summary.showsUserAmount && summary.userAmount != nil && summary.userCurrencyCode != nil,
+                convertedLabel: "Total en \(summary.userCurrencyCode ?? "")",
+                convertedAmount: summary.userAmount
+            )
         }
-        .buttonStyle(.plain)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding()
+        .background(.thinMaterial)
+        .cornerRadius(12)
+        .contentShape(RoundedRectangle(cornerRadius: 12))
+        .onTapGesture(perform: onTap)
+        .accessibilityElement(children: .combine)
+        .accessibilityAddTraits(.isButton)
+    }
+}
+
+private struct MetricRow: View {
+    let baseLabel: String
+    let baseAmount: String
+    let showConverted: Bool
+    let convertedLabel: String
+    let convertedAmount: String?
+
+    var body: some View {
+        HStack(alignment: .firstTextBaseline, spacing: 16) {
+
+            VStack(alignment: .leading, spacing: 2) {
+                Text(baseLabel)
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.7)
+
+                Text(baseAmount)
+                    .font(.title2)
+                    .monospacedDigit()
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.6)
+                    .layoutPriority(2)
+            }
+
+            Spacer(minLength: 12)
+
+            if showConverted, let convertedAmount {
+                VStack(alignment: .trailing, spacing: 2) {
+                    Text(convertedLabel)
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.7)
+
+                    Text(convertedAmount)
+                        .font(.headline)
+                        .monospacedDigit()
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.6)
+                }
+                .layoutPriority(1)
+            }
+        }
     }
 }
 
