@@ -14,7 +14,9 @@ extension String {
             "AUD": "A$",
             "NZD": "NZ$",
             "MXN": "$",
-            "EUR": "€"
+            "EUR": "€",
+            "JPY": "¥",
+            "KRW": "₩"
         ][self] ?? self
     }
 }
