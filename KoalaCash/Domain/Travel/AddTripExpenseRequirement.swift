@@ -9,7 +9,7 @@ import Foundation
 import SwiftData
 
 protocol AddTripExpenseRequirementProtocol {
-    func addExpense(to trip: Trip, name: String, currency: String, amount: Decimal, category: String, dividedBy: Int, context: ModelContext) async -> Bool
+    func addExpense(to trip: Trip, name: String, currency: String, amount: Decimal, category: String, dividedBy: Int, includeInBudget: Bool, context: ModelContext) async -> Bool
 }
 
 class AddTripExpenseRequirement: AddTripExpenseRequirementProtocol {
@@ -21,7 +21,7 @@ class AddTripExpenseRequirement: AddTripExpenseRequirementProtocol {
         self.travelRepository = travelRepository
     }
     
-    func addExpense(to trip: Trip, name: String, currency: String, amount: Decimal, category: String, dividedBy: Int, context: ModelContext) async -> Bool {
-        await travelRepository.addExpense(to: trip, name: name, currency: currency, amount: amount, category: category, dividedBy: dividedBy, context: context)
+    func addExpense(to trip: Trip, name: String, currency: String, amount: Decimal, category: String, dividedBy: Int, includeInBudget: Bool, context: ModelContext) async -> Bool {
+        await travelRepository.addExpense(to: trip, name: name, currency: currency, amount: amount, category: category, dividedBy: dividedBy, includeInBudget: includeInBudget, context: context)
     }
 }

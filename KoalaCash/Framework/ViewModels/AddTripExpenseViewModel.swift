@@ -15,6 +15,7 @@ class AddTripExpenseViewModel: ObservableObject {
     @Published var amountValue: Decimal? = nil
     @Published var isShared: Bool = false
     @Published var sharedCount: Int = 2
+    @Published var includeInBudget: Bool = false
 
     @Published var messageAlert: String = ""
     @Published var showAlert: Bool = false
@@ -42,7 +43,14 @@ class AddTripExpenseViewModel: ObservableObject {
 
         let dividedBy = isShared ? sharedCount : 1
 
-        let guardado = await addExpenseRequirement.addExpense(to: trip, name: trimmedName, currency: currencyValue, amount: amount, category: categoryValue, dividedBy: dividedBy, context: context)
+        let guardado = await addExpenseRequirement.addExpense(to: trip,
+                                                              name: trimmedName,
+                                                              currency: currencyValue,
+                                                              amount: amount,
+                                                              category: categoryValue,
+                                                              dividedBy: dividedBy,
+                                                              includeInBudget: includeInBudget,
+                                                              context: context)
 
         if guardado {
             nameValue = ""
@@ -50,6 +58,7 @@ class AddTripExpenseViewModel: ObservableObject {
             isShared = false
             sharedCount = 2
             currencyValue = trip.baseCurrency
+            includeInBudget = false
         } else {
             messageAlert = "Hubo un error al guardar el gasto. Intenta nuevamente."
             showAlert = true

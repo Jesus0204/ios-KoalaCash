@@ -92,6 +92,10 @@ struct AddTripExpenseView: View {
                             .padding(.bottom, 24)
                             .padding(.top, 16)
                         }
+                        
+                        Toggle("Contar dentro del presupuesto", isOn: $viewModel.includeInBudget)
+                            .padding(.horizontal, 24)
+                            .padding(.bottom, 24)
 
                         CustomButton(
                             text: "Guardar gasto",

@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SwiftData
+import Charts
 
 struct TripDetailView: View {
     let tripID: String
@@ -30,14 +31,29 @@ struct TripDetailView: View {
                             .font(.subheadline)
                             .foregroundStyle(.secondary)
                     }
-                    Text("Total gastado")
-                        .font(.subheadline)
-                        .foregroundStyle(.secondary)
-                    Text(viewModel.totalSpentText)
-                        .font(.title2.bold())
+                    
+                    MetricRow(
+                        baseLabel: "Total en \(viewModel.currencyCode)",
+                        baseAmount: viewModel.totalSpentText,
+                        showConverted: viewModel.showsUserTotal,
+                        convertedLabel: "Equivalente en \(viewModel.userCurrencyCode)",
+                        convertedAmount: viewModel.totalUserSpentText
+                    )
+                    
                 }
                 .padding(.horizontal)
                 .padding(.top, 16)
+                
+                if !viewModel.categoryData.isEmpty {
+                    VStack(alignment: .leading, spacing: 12) {
+                        Text("Gasto por categoría (\(viewModel.userCurrencyCode))")
+                            .font(.headline)
+                        TripCategoryChartView(data: viewModel.categoryData)
+                            .frame(height: 140)
+                            .padding(.top, 2)
+                    }
+                    .padding(.horizontal)
+                }
 
                 if viewModel.expenses.isEmpty {
                     VStack(alignment: .leading, spacing: 12) {
@@ -99,6 +115,66 @@ struct TripDetailView: View {
             }
         } message: {
             Text("Esta acción no se puede deshacer")
+        }
+    }
+}
+
+private struct TripCategoryChartView: View {
+    let data: [TripDetailViewModel.CategoryData]
+
+    var body: some View {
+        Chart(data) { item in
+            BarMark(
+                x: .value("Categoría", item.name),
+                y: .value("Monto", item.amount)
+            )
+        }
+    }
+}
+
+private struct MetricRow: View {
+    let baseLabel: String
+    let baseAmount: String
+    let showConverted: Bool
+    let convertedLabel: String
+    let convertedAmount: String?
+
+    var body: some View {
+        HStack(alignment: .firstTextBaseline, spacing: 16) {
+
+            VStack(alignment: .leading, spacing: 2) {
+                Text(baseLabel)
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.7)
+
+                Text(baseAmount)
+                    .font(.title2.bold())
+                    .monospacedDigit()
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.6)
+                    .layoutPriority(2)
+            }
+
+            Spacer(minLength: 12)
+
+            if showConverted, let convertedAmount {
+                VStack(alignment: .trailing, spacing: 2) {
+                    Text(convertedLabel)
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.7)
+
+                    Text(convertedAmount)
+                        .font(.headline)
+                        .monospacedDigit()
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.6)
+                }
+                .layoutPriority(1)
+            }
         }
     }
 }

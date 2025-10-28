@@ -11,7 +11,7 @@ import SwiftData
 protocol TravelAPIProtocol {
     func addTrip(name: String, startDate: Date, endDate: Date?, currency: String, user: StoredUser, context: ModelContext) async -> Bool
     func deleteTrip(tripID: String, context: ModelContext) async -> Bool
-    func addExpense(to trip: Trip, name: String, currency: String, amount: Decimal, category: String, dividedBy: Int, context: ModelContext) async -> Bool
+    func addExpense(to trip: Trip, name: String, currency: String, amount: Decimal, category: String, dividedBy: Int, includeInBudget: Bool, context: ModelContext) async -> Bool
     func deleteExpense(expenseID: String, context: ModelContext) async -> Bool
 }
 
@@ -32,8 +32,8 @@ class TravelRepository: TravelAPIProtocol {
         await travelService.deleteTrip(tripID: tripID, context: context)
     }
 
-    func addExpense(to trip: Trip, name: String, currency: String, amount: Decimal, category: String, dividedBy: Int, context: ModelContext) async -> Bool {
-        await travelService.addExpense(to: trip, name: name, currency: currency, amount: amount, category: category, dividedBy: dividedBy, context: context)
+    func addExpense(to trip: Trip, name: String, currency: String, amount: Decimal, category: String, dividedBy: Int, includeInBudget: Bool, context: ModelContext) async -> Bool {
+        await travelService.addExpense(to: trip, name: name, currency: currency, amount: amount, category: category, dividedBy: dividedBy, includeInBudget: includeInBudget, context: context)
     }
 
     func deleteExpense(expenseID: String, context: ModelContext) async -> Bool {

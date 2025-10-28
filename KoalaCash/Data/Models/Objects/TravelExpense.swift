@@ -18,6 +18,9 @@ final class TravelExpense {
     var convertedAmount: Decimal
     var totalOriginalAmount: Decimal
     var totalConvertedAmount: Decimal
+    var userCurrency: String = ""
+    var userConvertedAmount: Decimal = 0
+    var totalUserConvertedAmount: Decimal = 0
     var dividedBy: Int
     var datePurchase: Date
     var category: String
@@ -31,6 +34,9 @@ final class TravelExpense {
          convertedAmount: Decimal,
          totalOriginalAmount: Decimal,
          totalConvertedAmount: Decimal,
+         userCurrency: String,
+         userConvertedAmount: Decimal,
+         totalUserConvertedAmount: Decimal,
          dividedBy: Int,
          datePurchase: Date,
          category: String) {
@@ -42,6 +48,9 @@ final class TravelExpense {
         self.convertedAmount = convertedAmount
         self.totalOriginalAmount = totalOriginalAmount
         self.totalConvertedAmount = totalConvertedAmount
+        self.userCurrency = userCurrency
+        self.userConvertedAmount = userConvertedAmount
+        self.totalUserConvertedAmount = totalUserConvertedAmount
         self.dividedBy = dividedBy
         self.datePurchase = datePurchase
         self.category = category

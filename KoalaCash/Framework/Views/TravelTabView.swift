@@ -25,17 +25,33 @@ struct TravelTabView: View {
                         
                         HStack {
                             Spacer()
-                            Image("KoalaCashTraveller")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(height: 180)
-                                .accessibilityHidden(true)
+                            if viewModel.activeTrip != nil {
+                                Button {
+                                    path.append(.addTrip)
+                                } label: {
+                                    Image("KoalaCashTraveller")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(height: 180)
+                                        .accessibilityHidden(true)
+                                }
+                                .buttonStyle(.plain)
+                                .accessibilityLabel("Agregar viaje")
+                            } else {
+                                Image("KoalaCashTraveller")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(height: 180)
+                                    .accessibilityHidden(true)
+                            }
                             Spacer()
                         }
 
                         if let active = viewModel.activeTrip {
-                            ActiveTripCard(summary: active)
-                                .padding(.horizontal)
+                            ActiveTripCard(summary: active) {
+                                path.append(.tripDetail(active.id))
+                            }
+                            .padding(.horizontal)
                         }
 
                         if viewModel.trips.isEmpty {
@@ -45,7 +61,7 @@ struct TravelTabView: View {
                                 .padding(.horizontal)
                         } else {
                             LazyVStack(spacing: 16) {
-                                ForEach(viewModel.trips) { trip in
+                                ForEach(viewModel.trips.filter { !$0.isActive }) { trip in
                                     TripRowView(trip: trip,
                                                 onTap: {
                                                     path.append(.tripDetail(trip.id))
@@ -67,10 +83,18 @@ struct TravelTabView: View {
             .navigationBarTitleDisplayMode(.automatic)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button {
-                        path.append(.addTrip)
-                    } label: {
-                        Image(systemName: "plus")
+                    if let active = viewModel.activeTrip {
+                        Button {
+                            path.append(.addTripExpense(active.id))
+                        } label: {
+                            Image(systemName: "plus")
+                        }
+                    } else {
+                        Button {
+                            path.append(.addTrip)
+                        } label: {
+                            Image(systemName: "plus")
+                        }
                     }
                 }
             }
@@ -107,25 +131,54 @@ struct TravelTabView: View {
 
 private struct ActiveTripCard: View {
     let summary: TravelTabViewModel.ActiveTripSummary
+    var onTap: () -> Void
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Text("Viaje activo")
-                .font(.headline)
-                .foregroundStyle(.secondary)
-            Text(summary.title)
-                .font(.title2.bold())
-            Text(summary.dateRange)
-                .font(.subheadline)
-                .foregroundStyle(.secondary)
-            Text(summary.amount)
-                .font(.title3)
-                .padding(.top, 8)
+        Button(action: onTap) {
+            VStack(alignment: .leading, spacing: 12) {
+                HStack(alignment: .top) {
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text(summary.title)
+                            .font(.title2.bold())
+                    }
+                    Spacer()
+                    Label("Activo", systemImage: "airplane.circle.fill")
+                        .font(.caption)
+                        .padding(.horizontal, 8)
+                        .padding(.vertical, 4)
+                        .background(Color.mintTeal.opacity(0.2))
+                        .foregroundColor(.mintTeal)
+                        .clipShape(Capsule())
+                }
+
+                Text(summary.dateRange)
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
+
+                VStack(alignment: .leading, spacing: 6) {
+                    Text("Total en \(summary.baseCurrencyCode)")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                    Text(summary.baseAmount)
+                        .font(.title3)
+
+                    if summary.showsUserAmount,
+                       let userAmount = summary.userAmount,
+                       let userCurrency = summary.userCurrencyCode {
+                        Text("Total en \(userCurrency)")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                        Text(userAmount)
+                            .font(.headline)
+                    }
+                }
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding()
+            .background(.thinMaterial)
+            .cornerRadius(12)
         }
-        .padding()
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .background(.thinMaterial)
-        .cornerRadius(12)
+        .buttonStyle(.plain)
     }
 }
 

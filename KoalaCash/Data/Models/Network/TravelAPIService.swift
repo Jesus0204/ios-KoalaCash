@@ -76,17 +76,29 @@ class TravelAPIService {
                     amount: Decimal,
                     category: String,
                     dividedBy: Int,
+                    includeInBudget: Bool,
                     context: ModelContext) async -> Bool {
-        let convertedTotal: Decimal
+        var convertedTotal: Decimal = 0
+        let userCurrency = trip.user?.currencyValue ?? trip.baseCurrency
+        var userConvertedTotal: Decimal = 0
+        var createdExpense: TravelExpense?
+        
         do {
             if currency == trip.baseCurrency {
                 convertedTotal = amount
             } else {
                 convertedTotal = try await convert(amount: amount, from: currency, to: trip.baseCurrency)
             }
+            
+            if currency == userCurrency {
+                userConvertedTotal = amount
+            } else {
+                userConvertedTotal = try await ExpenseAPIService.shared.convert(amount: amount, from: currency, to: userCurrency)
+            }
 
             let perPersonOriginal = amount / Decimal(dividedBy)
             let perPersonConverted = convertedTotal / Decimal(dividedBy)
+            let perPersonUserConverted = userConvertedTotal / Decimal(dividedBy)
 
             let expense = TravelExpense(name: name,
                                         originalCurrency: currency,
@@ -95,6 +107,9 @@ class TravelAPIService {
                                         convertedAmount: perPersonConverted,
                                         totalOriginalAmount: amount,
                                         totalConvertedAmount: convertedTotal,
+                                        userCurrency: userCurrency,
+                                        userConvertedAmount: perPersonUserConverted,
+                                        totalUserConvertedAmount: userConvertedTotal,
                                         dividedBy: dividedBy,
                                         datePurchase: Date(),
                                         category: category)
@@ -102,13 +117,70 @@ class TravelAPIService {
             expense.trip = trip
             trip.expenses.append(expense)
             trip.totalConvertedAmount += convertedTotal
+            trip.totalUserConvertedAmount += userConvertedTotal
 
             context.insert(expense)
+            createdExpense = expense
             try context.save()
+            
+            if includeInBudget {
+                guard let user = trip.user else {
+                    undoExpenseInsertion(expense,
+                                         trip: trip,
+                                         context: context,
+                                         convertedTotal: convertedTotal,
+                                         userConvertedTotal: userConvertedTotal)
+                    return false
+                }
+
+                let savedToBudget = await ExpenseAPIService.shared.agregarGasto(name: name,
+                                                                                currency: currency,
+                                                                                amount: amount,
+                                                                                category: category,
+                                                                                dividedBy: dividedBy,
+                                                                                excludedFromBudget: false,
+                                                                                user: user,
+                                                                                context: context)
+
+                if !savedToBudget {
+                    undoExpenseInsertion(expense,
+                                         trip: trip,
+                                         context: context,
+                                         convertedTotal: convertedTotal,
+                                         userConvertedTotal: userConvertedTotal)
+                    return false
+                }
+            }
             return true
         } catch {
             print("Error agregando gasto de viaje: \(error)")
+            if let expense = createdExpense {
+                undoExpenseInsertion(expense,
+                                     trip: trip,
+                                     context: context,
+                                     convertedTotal: convertedTotal,
+                                     userConvertedTotal: userConvertedTotal)
+            }
             return false
+        }
+    }
+    
+    @MainActor
+    private func undoExpenseInsertion(_ expense: TravelExpense,
+                                       trip: Trip,
+                                       context: ModelContext,
+                                       convertedTotal: Decimal,
+                                       userConvertedTotal: Decimal) {
+        trip.expenses.removeAll { $0.travelExpenseID == expense.travelExpenseID }
+        trip.totalConvertedAmount -= convertedTotal
+        trip.totalUserConvertedAmount -= userConvertedTotal
+        if trip.totalConvertedAmount < 0 { trip.totalConvertedAmount = 0 }
+        if trip.totalUserConvertedAmount < 0 { trip.totalUserConvertedAmount = 0 }
+        context.delete(expense)
+        do {
+            try context.save()
+        } catch {
+            print("Error revirtiendo gasto de viaje: \(error)")
         }
     }
 
@@ -123,6 +195,8 @@ class TravelAPIService {
                     trip.expenses.removeAll { $0.travelExpenseID == expense.travelExpenseID }
                     trip.totalConvertedAmount -= expense.totalConvertedAmount
                     if trip.totalConvertedAmount < 0 { trip.totalConvertedAmount = 0 }
+                    trip.totalUserConvertedAmount -= expense.totalUserConvertedAmount
+                     if trip.totalUserConvertedAmount < 0 { trip.totalUserConvertedAmount = 0 }
                 }
                 context.delete(expense)
                 try context.save()

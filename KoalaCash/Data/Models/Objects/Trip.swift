@@ -16,6 +16,7 @@ final class Trip {
     var endDate: Date?
     var baseCurrency: String
     var totalConvertedAmount: Decimal
+    var totalUserConvertedAmount: Decimal
 
     @Relationship var user: StoredUser?
 
@@ -28,6 +29,7 @@ final class Trip {
         self.endDate = endDate
         self.baseCurrency = baseCurrency
         self.totalConvertedAmount = 0
+        self.totalUserConvertedAmount = 0
     }
 }
 
