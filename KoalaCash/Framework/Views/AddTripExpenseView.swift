@@ -18,7 +18,8 @@ struct AddTripExpenseView: View {
     @StateObject private var viewModel = AddTripExpenseViewModel()
     @State private var trip: Trip?
 
-    private let currencyOptions = ["MXN", "USD", "EUR", "AUD", "NZD", "JPY", "KRW"]
+    private let currencyOptions = ["MXN", "AUD", "USD", "EUR", "NZD", "JPY", "KRW"]
+    
     private let categoryOptions = ["Comidas", "Transporte", "Avión", "Hospedaje", "Actividades", "Compras", "Souvenirs", "Datos móviles", "Otros"]
 
     var body: some View {
