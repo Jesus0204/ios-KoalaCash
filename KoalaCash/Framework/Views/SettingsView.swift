@@ -43,7 +43,7 @@ struct SettingsView: View {
                             title: true)
                         
                         DropdownField(
-                            label: "Moneda principal", options: ["MXN", "AUD", "USD", "EUR" ],
+                            label: "Moneda principal", options: ["MXN", "AUD", "NZD", "USD", "EUR" ],
                             selectedOption: Binding(
                             get: { user.currencyValue },
                             set: { new in

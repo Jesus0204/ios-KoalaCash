@@ -12,6 +12,7 @@ extension String {
         [
             "USD": "$",
             "AUD": "A$",
+            "NZD": "NZ$",
             "MXN": "$",
             "EUR": "€"
         ][self] ?? self

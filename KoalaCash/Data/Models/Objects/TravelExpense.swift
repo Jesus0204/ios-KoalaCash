@@ -1,0 +1,49 @@
+//
+//  TravelExpense.swift
+//  KoalaCash
+//
+//  Created by Jesus Cedillo on 28/10/25.
+//
+
+import Foundation
+import SwiftData
+
+@Model
+final class TravelExpense {
+    @Attribute(.unique) var travelExpenseID: UUID
+    var name: String
+    var originalCurrency: String
+    var convertedCurrency: String
+    var originalAmount: Decimal
+    var convertedAmount: Decimal
+    var totalOriginalAmount: Decimal
+    var totalConvertedAmount: Decimal
+    var dividedBy: Int
+    var datePurchase: Date
+    var category: String
+
+    @Relationship var trip: Trip?
+
+    init(name: String,
+         originalCurrency: String,
+         convertedCurrency: String,
+         originalAmount: Decimal,
+         convertedAmount: Decimal,
+         totalOriginalAmount: Decimal,
+         totalConvertedAmount: Decimal,
+         dividedBy: Int,
+         datePurchase: Date,
+         category: String) {
+        self.travelExpenseID = UUID()
+        self.name = name
+        self.originalCurrency = originalCurrency
+        self.convertedCurrency = convertedCurrency
+        self.originalAmount = originalAmount
+        self.convertedAmount = convertedAmount
+        self.totalOriginalAmount = totalOriginalAmount
+        self.totalConvertedAmount = totalConvertedAmount
+        self.dividedBy = dividedBy
+        self.datePurchase = datePurchase
+        self.category = category
+    }
+}

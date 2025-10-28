@@ -32,7 +32,7 @@ struct InitialDataView: View {
                     
                     FechaPicker(label: "Fecha de tu próximo depósito", selectedDate: $onboardingViewModel.fortnightDate, title: true)
                     
-                    DropdownField(label: "Moneda principal", options: ["MXN", "AUD", "USD", "EUR" ], selectedOption: $onboardingViewModel.currencyValue, title: true)
+                    DropdownField(label: "Moneda principal", options: ["MXN", "AUD", "NZD", "USD", "EUR" ], selectedOption: $onboardingViewModel.currencyValue, title: true)
                     
                     MoneyField(
                                 label: "Quincena",

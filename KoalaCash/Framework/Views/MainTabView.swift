@@ -18,6 +18,11 @@ struct MainTabView: View {
                     Image(systemName: "rectangle.grid.2x2")
                     Text("Dashboard")
                 }
+            /*TravelTabView()
+                .tabItem {
+                    Image(systemName: "airplane")
+                    Text("Viajes")
+                } */
             SettingsView()
                 .tabItem {
                     Image(systemName: "gearshape")

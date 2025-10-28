@@ -34,7 +34,7 @@ struct AddExpenseView: View {
                         Spacer()
                     }
                     
-                    DropdownField(label: "Moneda del gasto", options: ["MXN", "AUD", "USD", "EUR" ], selectedOption: $addExpenseViewModel.currencyValue, title: true)
+                    DropdownField(label: "Moneda del gasto", options: ["MXN", "AUD", "NZD", "USD", "EUR" ], selectedOption: $addExpenseViewModel.currencyValue, title: true)
                     
                     MoneyField(
                                 label: "Monto del gasto",

@@ -14,7 +14,9 @@ private let sharedContainer: ModelContainer = {
     try! ModelContainer(
         for: StoredUser.self,
              Quincena.self,
-             Expense.self
+             Expense.self,
+             Trip.self,
+             TravelExpense.self
     )
 }()
 

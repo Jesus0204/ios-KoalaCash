@@ -18,6 +18,7 @@ final class StoredUser {
     var budgetValue: Decimal
     
     @Relationship(inverse: \Quincena.user) var quincenas: [Quincena] = []
+    @Relationship(inverse: \Trip.user) var trips: [Trip] = []
 
     init(firebaseUID: String, email: String, nickname: String, fortnightDate: Date, currencyValue: String, budgetValue: Decimal) {
         self.firebaseUID = firebaseUID
