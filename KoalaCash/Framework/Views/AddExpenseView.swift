@@ -22,7 +22,7 @@ struct AddExpenseView: View {
             
             ScrollView {
                 VStack {
-                    TitleSubtitleView(title: "¡Agrega un nuevo gasto!", subtitle: "Este gasto se actualizará con la tasa del día hasta que lo marques como ‘Pagado’.")
+                    TitleSubtitleView(title: "¡Agrega un nuevo gasto!", subtitle: "Este gasto se guardará en tu historial y con la tasa del día de hoy.")
                     
                     HStack {
                         Spacer()

@@ -23,22 +23,6 @@ struct DashboardView: View {
                 ScrollView {
                     VStack(alignment: .leading, spacing: 24) {
                         
-                        HStack {
-                            Text("Hola, \(sessionManager.storedUser?.nickname ?? "") 👋")
-                                .font(.largeTitle.bold())
-                                .padding(.top, 16)
-                            
-                            Spacer()
-                            
-                            Button(action: {
-                                path.append(.addExpense)
-                            }, label: {
-                                Image(systemName: "plus")
-                                    .padding(.trailing, 8)
-                            })
-                            .buttonStyle(PlainButtonStyle())
-                        }
-                        
                         VStack(alignment: .leading, spacing: 8) {
                             Button(action: {
                                 showAdjustBudget = true
@@ -114,6 +98,7 @@ struct DashboardView: View {
                     }
                     .padding(.horizontal)
                 }
+                .padding(.top, 20)
             }
             .navigationDestination(for: DashboardPaths.self) { value in
                 switch value {
@@ -121,6 +106,21 @@ struct DashboardView: View {
                     AddExpenseView(path: $path)
                 case .expensesList:
                     ExpensesListView()
+                }
+            }
+            .navigationTitle("")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .principal) {
+                    Text("Hola, \(sessionManager.storedUser?.nickname ?? "") 👋")
+                        .font(.largeTitle.bold())
+                        .padding(.top, 2)
+                        .minimumScaleFactor(0.9)
+                }
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button { path.append(.addExpense) } label: {
+                        Image(systemName: "plus")
+                    }
                 }
             }
         }
