@@ -50,7 +50,11 @@ class AddExpenseViewModel: ObservableObject {
             sharedCount = 2
             excludeFromBudget = false
         } else {
-            messageAlert = "Hubo un error al guardar el gasto. Favor de intentarlo de nuevo."
+            if let limitMessage = APIUsageLimitNotifier.shared.consumeLimitMessage() {
+                messageAlert = limitMessage
+            } else {
+                messageAlert = "Hubo un error al guardar el gasto. Favor de intentarlo de nuevo."
+            }
             showAlert = true
         }
     }

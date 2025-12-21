@@ -25,8 +25,12 @@ class TravelAPIService {
         let url = Api.base + "&source=\(currency)&currencies=\(target)"
         let data = try await session.request(url).serializingData().value
         let response = try JSONDecoder().decode(ExchangeRateResponse.self, from: data)
-        let rateKey = "\(currency)\(target)"
-        let rate = response.quotes?[rateKey] ?? response.rates?[target] ?? 1.0
+        try await APIUsageLimitNotifier.shared.handleUsageLimitIfNeeded(response: response)
+
+        guard let rate = response.rate(from: currency, to: target) else {
+            throw APIServiceError.missingRate
+        }
+        
         return amount * Decimal(rate)
     }
 

@@ -9,9 +9,24 @@ import Foundation
 import SwiftData
 import Alamofire
 
+struct ExchangeRateErrorResponse: Decodable {
+    let code: Int
+    let type: String
+    let info: String
+}
+
 struct ExchangeRateResponse: Decodable {
+    let success: Bool?
     let quotes: [String: Double]?
     let rates: [String: Double]?
+    let error: ExchangeRateErrorResponse?
+
+    func rate(from source: String, to target: String) -> Double? {
+        let rateKey = "\(source)\(target)"
+        if let rate = quotes?[rateKey] { return rate }
+        if let rate = rates?[target] { return rate }
+        return nil
+    }
 }
 
 class ExpenseAPIService {
@@ -34,8 +49,12 @@ class ExpenseAPIService {
         let url = Api.base + "&source=\(currency)&currencies=\(target)"
         let data = try await session.request(url).serializingData().value
         let response = try JSONDecoder().decode(ExchangeRateResponse.self, from: data)
-        let rateKey = "\(currency)\(target)"
-        let rate = response.quotes?[rateKey] ?? response.rates?[target] ?? 1.0
+        try await APIUsageLimitNotifier.shared.handleUsageLimitIfNeeded(response: response)
+
+        guard let rate = response.rate(from: currency, to: target) else {
+            throw APIServiceError.missingRate
+        }
+        
         return amount * Decimal(rate)
     }
     
@@ -57,9 +76,12 @@ class ExpenseAPIService {
             if currency != userCurrency {
                 let data = try await session.request(url).serializingData().value
                 let response = try JSONDecoder().decode(ExchangeRateResponse.self, from: data)
+                try await APIUsageLimitNotifier.shared.handleUsageLimitIfNeeded(response: response)
 
-                let rateKey = "\(currency)\(userCurrency)"
-                let rate = response.quotes?[rateKey] ?? response.rates?[userCurrency] ?? 1.0
+                guard let rate = response.rate(from: currency, to: userCurrency) else {
+                    throw APIServiceError.missingRate
+                }
+                
                 convertedTotal = amount * Decimal(rate)
             } else {
                 convertedTotal = amount

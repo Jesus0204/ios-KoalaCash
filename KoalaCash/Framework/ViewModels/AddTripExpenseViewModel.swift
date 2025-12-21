@@ -60,7 +60,11 @@ class AddTripExpenseViewModel: ObservableObject {
             currencyValue = trip.baseCurrency
             includeInBudget = false
         } else {
-            messageAlert = "Hubo un error al guardar el gasto. Intenta nuevamente."
+            if let limitMessage = APIUsageLimitNotifier.shared.consumeLimitMessage() {
+                messageAlert = limitMessage
+            } else {
+                messageAlert = "Hubo un error al guardar el gasto. Intenta nuevamente."
+            }
             showAlert = true
         }
     }
