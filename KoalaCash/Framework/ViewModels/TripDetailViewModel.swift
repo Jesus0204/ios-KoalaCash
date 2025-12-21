@@ -125,7 +125,7 @@ class TripDetailViewModel: ObservableObject {
         } else {
             var totalsByCategory: [String: Decimal] = [:]
             for expense in trip.expenses {
-                totalsByCategory[expense.category, default: 0] += expense.totalUserConvertedAmount
+                totalsByCategory[expense.category, default: 0] += expense.userConvertedAmount
             }
 
             categoryData = totalsByCategory

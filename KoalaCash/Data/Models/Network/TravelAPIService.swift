@@ -81,6 +81,8 @@ class TravelAPIService {
         var convertedTotal: Decimal = 0
         let userCurrency = trip.user?.currencyValue ?? trip.baseCurrency
         var userConvertedTotal: Decimal = 0
+        var perPersonConverted: Decimal = 0
+        var perPersonUserConverted: Decimal = 0
         var createdExpense: TravelExpense?
         
         do {
@@ -97,8 +99,8 @@ class TravelAPIService {
             }
 
             let perPersonOriginal = amount / Decimal(dividedBy)
-            let perPersonConverted = convertedTotal / Decimal(dividedBy)
-            let perPersonUserConverted = userConvertedTotal / Decimal(dividedBy)
+            perPersonConverted = convertedTotal / Decimal(dividedBy)
+            perPersonUserConverted = userConvertedTotal / Decimal(dividedBy)
 
             let expense = TravelExpense(name: name,
                                         originalCurrency: currency,
@@ -116,8 +118,8 @@ class TravelAPIService {
 
             expense.trip = trip
             trip.expenses.append(expense)
-            trip.totalConvertedAmount += convertedTotal
-            trip.totalUserConvertedAmount += userConvertedTotal
+            trip.totalConvertedAmount += perPersonConverted
+            trip.totalUserConvertedAmount += perPersonUserConverted
 
             context.insert(expense)
             createdExpense = expense
@@ -127,8 +129,8 @@ class TravelAPIService {
                     undoExpenseInsertion(expense,
                                          trip: trip,
                                          context: context,
-                                         convertedTotal: convertedTotal,
-                                         userConvertedTotal: userConvertedTotal)
+                                         convertedTotal: perPersonConverted,
+                                         userConvertedTotal: perPersonUserConverted)
                     return false
                 }
 
@@ -147,8 +149,8 @@ class TravelAPIService {
                     undoExpenseInsertion(expense,
                                          trip: trip,
                                          context: context,
-                                         convertedTotal: convertedTotal,
-                                         userConvertedTotal: userConvertedTotal)
+                                         convertedTotal: perPersonConverted,
+                                         userConvertedTotal: perPersonUserConverted)
                     return false
                 }
             }
@@ -163,8 +165,8 @@ class TravelAPIService {
                 undoExpenseInsertion(expense,
                                      trip: trip,
                                      context: context,
-                                     convertedTotal: convertedTotal,
-                                     userConvertedTotal: userConvertedTotal)
+                                     convertedTotal: perPersonConverted,
+                                     userConvertedTotal: perPersonUserConverted)
             }
             return false
         }
@@ -198,9 +200,9 @@ class TravelAPIService {
             if let expense = try context.fetch(descriptor).first {
                 if let trip = expense.trip {
                     trip.expenses.removeAll { $0.travelExpenseID == expense.travelExpenseID }
-                    trip.totalConvertedAmount -= expense.totalConvertedAmount
+                    trip.totalConvertedAmount -= expense.convertedAmount
                     if trip.totalConvertedAmount < 0 { trip.totalConvertedAmount = 0 }
-                    trip.totalUserConvertedAmount -= expense.totalUserConvertedAmount
+                    trip.totalUserConvertedAmount -= expense.userConvertedAmount
                     if trip.totalUserConvertedAmount < 0 { trip.totalUserConvertedAmount = 0 }
                   }
                   if let budgetExpenseID = expense.budgetExpenseID {
