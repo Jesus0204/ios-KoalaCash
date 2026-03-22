@@ -11,7 +11,7 @@ import SwiftData
 class AddTripExpenseViewModel: ObservableObject {
     @Published var nameValue: String = ""
     @Published var currencyValue: String = "MXN"
-    @Published var categoryValue: String = "Transporte"
+    @Published var categoryValue: String = "Comidas"
     @Published var amountValue: Decimal? = nil
     @Published var isShared: Bool = false
     @Published var sharedCount: Int = 2

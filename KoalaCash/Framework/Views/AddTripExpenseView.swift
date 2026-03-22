@@ -20,7 +20,7 @@ struct AddTripExpenseView: View {
 
     private let currencyOptions = ["MXN", "AUD", "USD", "EUR", "NZD", "JPY", "KRW"]
     
-    private let categoryOptions = ["Comidas", "Transporte", "Avión", "Hospedaje", "Actividades", "Compras", "Souvenirs", "Datos móviles", "Otros"]
+    private let categoryOptions = ["Comidas", "Actividades", "Compras", "Transporte", "Souvenirs", "Datos móviles", "Avión",  "Hospedaje", "Otros"]
 
     var body: some View {
         ZStack {

@@ -11,7 +11,7 @@ import SwiftData
 class AddExpenseViewModel: ObservableObject {
     @Published var nameValue: String = ""
     @Published var currencyValue: String = "AUD"
-    @Published var categoryValue: String = "Renta"
+    @Published var categoryValue: String = "Comidas"
     @Published var budgetValue: Decimal? = nil
     @Published var isShared: Bool = false
     @Published var sharedCount: Int = 2
