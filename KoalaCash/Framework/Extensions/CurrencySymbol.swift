@@ -16,7 +16,12 @@ extension String {
             "MXN": "$",
             "EUR": "€",
             "JPY": "¥",
-            "KRW": "₩"
+            "KRW": "₩",
+            "SGD": "S$",
+            "CNY": "¥",
+            "HKD": "HK$",
+            "VND": "₫",
+            "MYR": "RM"
         ][self] ?? self
     }
 }

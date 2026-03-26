@@ -17,7 +17,7 @@ struct AddTripView: View {
 
     @State private var hasEndDate: Bool = false
 
-    private let currencyOptions = ["MXN", "AUD", "USD", "EUR", "NZD", "JPY", "KRW"]
+    private let currencyOptions = ["MXN", "AUD", "USD", "EUR", "NZD", "SGD", "CNY", "HKD", "VND", "MYR"]
 
     private var today: Date { Date() }
     private var minDate: Date {
