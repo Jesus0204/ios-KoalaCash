@@ -22,9 +22,13 @@ struct ExchangeRateResponse: Decodable {
     let error: ExchangeRateErrorResponse?
 
     func rate(from source: String, to target: String) -> Double? {
-        let rateKey = "\(source)\(target)"
+        let normalizedSource = source.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
+        let normalizedTarget = target.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
+
+        let rateKey = "\(normalizedSource)\(normalizedTarget)"
+
         if let rate = quotes?[rateKey] { return rate }
-        if let rate = rates?[target] { return rate }
+        if let rate = rates?[normalizedTarget] { return rate }
         return nil
     }
 }
