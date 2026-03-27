@@ -7,32 +7,9 @@
 
 import Foundation
 import SwiftData
-import Alamofire
 
 class TravelAPIService {
     static let shared = TravelAPIService()
-
-    private let session = Session(configuration: {
-        let configuration = URLSessionConfiguration.default
-        configuration.timeoutIntervalForRequest = 7.5
-        configuration.timeoutIntervalForResource = 15
-        return configuration
-    }())
-
-    func convert(amount: Decimal, from currency: String, to target: String) async throws -> Decimal {
-        if currency == target { return amount }
-
-        let url = Api.base + "&source=\(currency)&currencies=\(target)"
-        let data = try await session.request(url).serializingData().value
-        let response = try JSONDecoder().decode(ExchangeRateResponse.self, from: data)
-        try await APIUsageLimitNotifier.shared.handleUsageLimitIfNeeded(response: response)
-
-        guard let rate = response.rate(from: currency, to: target) else {
-            throw APIServiceError.missingRate
-        }
-        
-        return amount * Decimal(rate)
-    }
 
     @MainActor
     func addTrip(name: String,
@@ -90,17 +67,20 @@ class TravelAPIService {
         var createdExpense: TravelExpense?
         
         do {
-            if currency == trip.baseCurrency {
-                convertedTotal = amount
-            } else {
-                convertedTotal = try await convert(amount: amount, from: currency, to: trip.baseCurrency)
+            let convertedValues = try await ExpenseAPIService.shared.convert(amount: amount,
+                                                                             from: currency,
+                                                                             to: [trip.baseCurrency, userCurrency])
+
+            let normalizedTripCurrency = trip.baseCurrency.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
+            let normalizedUserCurrency = userCurrency.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
+
+            guard let tripConverted = convertedValues[normalizedTripCurrency],
+                  let userConverted = convertedValues[normalizedUserCurrency] else {
+                throw APIServiceError.missingRate
             }
-            
-            if currency == userCurrency {
-                userConvertedTotal = amount
-            } else {
-                userConvertedTotal = try await ExpenseAPIService.shared.convert(amount: amount, from: currency, to: userCurrency)
-            }
+
+            convertedTotal = tripConverted
+            userConvertedTotal = userConverted
 
             let perPersonOriginal = amount / Decimal(dividedBy)
             perPersonConverted = convertedTotal / Decimal(dividedBy)
@@ -222,4 +202,3 @@ class TravelAPIService {
         return false
     }
 }
-
