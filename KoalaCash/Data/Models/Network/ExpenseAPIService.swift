@@ -45,22 +45,56 @@ class ExpenseAPIService {
     
     let exclusionStore = ExpenseExclusionStore.shared
     
-    func convert(amount: Decimal, from currency: String, to target: String) async throws -> Decimal {
-        if currency == target {
-            return amount
+    func convert(amount: Decimal, from currency: String, to targets: [String]) async throws -> [String: Decimal] {
+        let normalizedSource = currency.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
+        let normalizedTargets = Array(
+            Set(
+                targets.map { $0.trimmingCharacters(in: .whitespacesAndNewlines).uppercased() }
+            )
+        )
+
+        if normalizedTargets.isEmpty { return [:] }
+
+        var convertedValues: [String: Decimal] = [:]
+        let targetsToRequest = normalizedTargets.filter { $0 != normalizedSource }
+
+        if targetsToRequest.isEmpty {
+            normalizedTargets.forEach { convertedValues[$0] = amount }
+            return convertedValues
         }
 
-        let url = Api.base + "&source=\(currency)&currencies=\(target)"
+        let currencies = targetsToRequest.joined(separator: ",")
+        let url = Api.base + "&source=\(normalizedSource)&currencies=\(currencies)"
         let data = try await session.request(url).serializingData().value
         let response = try JSONDecoder().decode(ExchangeRateResponse.self, from: data)
         try await APIUsageLimitNotifier.shared.handleUsageLimitIfNeeded(response: response)
 
-        guard let rate = response.rate(from: currency, to: target) else {
-            throw APIServiceError.missingRate
+        for target in normalizedTargets {
+            if target == normalizedSource {
+                convertedValues[target] = amount
+                continue
+            }
+
+            guard let rate = response.rate(from: normalizedSource, to: target) else {
+                throw APIServiceError.missingRate
+            }
+            convertedValues[target] = amount * Decimal(rate)
         }
-        
-        return amount * Decimal(rate)
+
+        return convertedValues
     }
+    
+    func convert(amount: Decimal, from currency: String, to target: String) async throws -> Decimal {
+            let normalizedTarget = target.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
+            let convertedValues = try await convert(amount: amount, from: currency, to: [normalizedTarget])
+
+            guard let converted = convertedValues[normalizedTarget] else {
+                throw APIServiceError.missingRate
+            }
+        
+        return converted
+    }
+
     
     @MainActor
     func agregarGasto(name: String,
