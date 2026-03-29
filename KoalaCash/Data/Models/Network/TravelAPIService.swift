@@ -125,8 +125,8 @@ class TravelAPIService {
                                                                                   dividedBy: dividedBy,
                                                                                   excludedFromBudget: false,
                                                                                   user: user,
-                                                                                  context: context)
-                print(savedToBudgetID)
+                                                                                  context: context,
+                                                                                  preConvertedTotalInUserCurrency: userConvertedTotal)
 
                 if let budgetExpenseID = savedToBudgetID {
                     expense.budgetExpenseID = budgetExpenseID

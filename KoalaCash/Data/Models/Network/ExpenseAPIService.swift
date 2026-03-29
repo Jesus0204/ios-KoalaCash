@@ -104,19 +104,23 @@ class ExpenseAPIService {
                           dividedBy: Int,
                           excludedFromBudget: Bool,
                           user: StoredUser,
-                          context: ModelContext) async -> UUID? {
-        let userCurrency = user.currencyValue
-        let url = Api.base + "&source=\(currency)&currencies=\(userCurrency)"
+                          context: ModelContext,
+                          preConvertedTotalInUserCurrency: Decimal? = nil) async -> UUID? {
+        let normalizedCurrency = currency.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
+        let userCurrency = user.currencyValue.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
+        let url = Api.base + "&source=\(normalizedCurrency)&currencies=\(userCurrency)"
         
         let convertedTotal: Decimal
         var createdExpense: Expense?
         do {
-            if currency != userCurrency {
+            if let preConvertedTotalInUserCurrency {
+                convertedTotal = preConvertedTotalInUserCurrency
+            } else if normalizedCurrency != userCurrency {
                 let data = try await session.request(url).serializingData().value
                 let response = try JSONDecoder().decode(ExchangeRateResponse.self, from: data)
                 try await APIUsageLimitNotifier.shared.handleUsageLimitIfNeeded(response: response)
 
-                guard let rate = response.rate(from: currency, to: userCurrency) else {
+                guard let rate = response.rate(from: normalizedCurrency, to: userCurrency) else {
                     throw APIServiceError.missingRate
                 }
                 
